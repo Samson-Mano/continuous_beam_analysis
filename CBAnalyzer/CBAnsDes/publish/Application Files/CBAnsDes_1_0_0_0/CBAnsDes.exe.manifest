@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly manifestVersion="1.0" xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1">
+  <asmv1:assemblyIdentity version="1.0.0.0" name="CBAnsDes.exe" publicKeyToken="6715fd3b51d25abf" language="neutral" processorArchitecture="msil" type="win32" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="CBAnsDes" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="CBAnsDes.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet class="System.Security.PermissionSet" version="1" Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!-- UAC Manifest Options
+            If you want to change the Windows User Account Control level replace the 
+            requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+            If you want to utilize File and Registry Virtualization for backward 
+            compatibility then delete the requestedExecutionLevel node.
+        -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="4" minorVersion="10" buildNumber="0" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="2.0.50727.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CBAnsDes.exe" size="265728">
+      <assemblyIdentity name="CBAnsDes" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>fweXpYsJD2fD9gmzIJRDu+Cw5W4=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="Text Files\Reference.txt" size="8145">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>srGUCFG0yqhHCSXBAmaY59tNoRw=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=MANO_PC\User_pc" issuerKeyHash="ee3e75e9e662126306f2330b71f1be93db563759" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><DigestValue>6kMR46fZdkpg/CUDcX8JI+OBJY4=</DigestValue></Reference></SignedInfo><SignatureValue>fKydE4o9zNXOhm+N/ocSgOJtjq31Zw2UgNZBxWAjLGZrgg43bgueHX7/jpvUx7bgqZPWIENs01AtfFu83kNLkSh32RgWfsnah4s9fswhwcrcclB2M4V3G7F/9Tgo0WupekcsmNS3foQ3WdKb6+bbozE/84KxLogeLhorsFqVpSQ=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>pdcjOS2aOQpkEBIMjacSUGrg8kO88vS3aeBS5680TNnW/gnw0cWC5p1Jv++SS0lIYp2+c6lsK8Vn4qcGm3v73ldvLoozN5kygDvEYSze02d1YSATh4x6ZvjQ+YZLEl3XJnNCQf0fNzOxJ4pyWaHcJ5te0W8kpAJnk+z9UdGLgpM=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="8e2581e323097f710325fc604a76d9a7e31143ea" Description="" Url=""><as:assemblyIdentity version="1.0.0.0" name="CBAnsDes.exe" publicKeyToken="6715fd3b51d25abf" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=MANO_PC\User_pc</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><DigestValue>a3AVzXIYDuTuSuGEGIIAwqGUzv8=</DigestValue></Reference></SignedInfo><SignatureValue>LibwUefeXLwP703/qslQSlQXSNRGsJGzS4vrgZmlDG21ykf+W/rlahkmi6d6672GTd6YSOlpJVBlSX8fd3CYUggC4M8/GqZmWw2nK2E3K//DPb/ndq0i+WZBQGTOF3QccY8JO3va6En7E53Yn4SZ6pOy9yvQRsEBMmEu05HKUgg=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>pdcjOS2aOQpkEBIMjacSUGrg8kO88vS3aeBS5680TNnW/gnw0cWC5p1Jv++SS0lIYp2+c6lsK8Vn4qcGm3v73ldvLoozN5kygDvEYSze02d1YSATh4x6ZvjQ+YZLEl3XJnNCQf0fNzOxJ4pyWaHcJ5te0W8kpAJnk+z9UdGLgpM=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB1TCCAT6gAwIBAgIQMzn+jZ+oj5pBwXljp6uFuTANBgkqhkiG9w0BAQUFADApMScwJQYDVQQDHh4ATQBBAE4ATwBfAFAAQwBcAFUAcwBlAHIAXwBwAGMwHhcNMTcxMDE5MTMyNDA4WhcNMTgxMDE5MTkyNDA4WjApMScwJQYDVQQDHh4ATQBBAE4ATwBfAFAAQwBcAFUAcwBlAHIAXwBwAGMwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAKXXIzktmjkKZBASDI2nElBq4PJDvPL0t2ngUuevNEzZ1v4J8NHFguadSb/vkktJSGKdvnOpbCvFZ+KnBpt7+95Xby6KMzeZMoA7xGEs3tNndWEgE4eMemb40PmGSxJd1yZzQkH9HzczsSeKclmh3CebXtFvJKQCZ5Ps/VHRi4KTAgMBAAEwDQYJKoZIhvcNAQEFBQADgYEAnqEOkB7YE/Tkoqep1vBJBylqPpj9vpW1IVXCb4W8Gdj6XnIPz4I2LUFvxunp9ljxgvpKKTsHpik+y5LcrCdUsXeUCxVUx2glbDntBoPWi1isppaMpD62g2eARCaWug/KiOMzVCYbfYd+DtXsPn69SRoTNk/DA9pZHc9Uun2Pi7w=</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
