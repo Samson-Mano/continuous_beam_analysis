@@ -69,7 +69,7 @@ x1:
         CreateToolStripMenuItem_Click(sender, e)
         CreateToolStripMenuItem.Checked = True
         beamcreate.mainpic.Refresh()
-        'Me.WindowState = FormWindowState.Maximized
+        Me.WindowState = FormWindowState.Maximized
     End Sub
 
     Private Sub OpenFile(ByVal sender As Object, ByVal e As EventArgs) Handles OpenToolStripMenuItem.Click, OpenToolStripButton.Click
@@ -148,7 +148,7 @@ x1:
                 CreateToolStripMenuItem_Click(sender, e)
                 CreateToolStripMenuItem.Checked = True
                 beamcreate.mainpic.Refresh()
-                'Me.WindowState = FormWindowState.Maximized
+                Me.WindowState = FormWindowState.Maximized
                 gsf.Close()
             Else
                 'MessageBox.Show("File does not exist!")
@@ -315,7 +315,7 @@ x1:
             If m.Pload.Count <> 0 Or m.Uload.Count <> 0 Or m.Mload.Count <> 0 Then
                 '------Analysis Part
                 'Try
-                Call TESLA()
+                Call ContinuousBeam_analyzer()
                 'Catch ex As Exception
                 '    MsgBox("Error Analysis .....                   " & vbNewLine & "Please Report Bug" & vbNewLine & "..................................................", MsgBoxStyle.OkOnly, "Bug")
                 '    CreateToolStripMenuItem_Click(sender, e)
@@ -415,7 +415,7 @@ x1:
     End Sub
 
     Private Sub memdetailsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles memdetailsToolStripMenuItem.Click
-        TESLA(True)
+        ContinuousBeam_analyzer(True)
     End Sub
 
     Private Sub CalculatorToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CalculatorToolStripMenuItem.Click

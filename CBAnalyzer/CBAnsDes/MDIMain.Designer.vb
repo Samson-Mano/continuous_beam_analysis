@@ -110,10 +110,12 @@ Partial Class MDIMain
         '
         'MenuStrip
         '
+        Me.MenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileMenu, Me.EditMenu, Me.ViewMenu, Me.ComputeToolStripMenuItem, Me.ToolsMenu, Me.HelpMenu})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(884, 24)
+        Me.MenuStrip.Padding = New System.Windows.Forms.Padding(8, 2, 0, 2)
+        Me.MenuStrip.Size = New System.Drawing.Size(1056, 28)
         Me.MenuStrip.TabIndex = 5
         Me.MenuStrip.Text = "MenuStrip"
         '
@@ -122,7 +124,7 @@ Partial Class MDIMain
         Me.FileMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.OpenToolStripMenuItem, Me.ToolStripSeparator3, Me.SaveToolStripMenuItem, Me.ToolStripSeparator4, Me.ToolStripSeparator5, Me.ExitToolStripMenuItem})
         Me.FileMenu.ImageTransparentColor = System.Drawing.SystemColors.ActiveBorder
         Me.FileMenu.Name = "FileMenu"
-        Me.FileMenu.Size = New System.Drawing.Size(37, 20)
+        Me.FileMenu.Size = New System.Drawing.Size(44, 24)
         Me.FileMenu.Text = "&File"
         '
         'NewToolStripMenuItem
@@ -131,7 +133,7 @@ Partial Class MDIMain
         Me.NewToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Black
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
         Me.NewToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(173, 26)
         Me.NewToolStripMenuItem.Text = "&New"
         '
         'OpenToolStripMenuItem
@@ -140,13 +142,13 @@ Partial Class MDIMain
         Me.OpenToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Black
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
         Me.OpenToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(173, 26)
         Me.OpenToolStripMenuItem.Text = "&Open"
         '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(143, 6)
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(170, 6)
         '
         'SaveToolStripMenuItem
         '
@@ -154,103 +156,103 @@ Partial Class MDIMain
         Me.SaveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Black
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
         Me.SaveToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(173, 26)
         Me.SaveToolStripMenuItem.Text = "&Save"
         '
         'ToolStripSeparator4
         '
         Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(143, 6)
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(170, 6)
         '
         'ToolStripSeparator5
         '
         Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-        Me.ToolStripSeparator5.Size = New System.Drawing.Size(143, 6)
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(170, 6)
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(173, 26)
         Me.ExitToolStripMenuItem.Text = "E&xit"
         '
         'EditMenu
         '
         Me.EditMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddMemberToolStripMenuItem, Me.BeamEndsToolStripMenuItem, Me.ToolStripSeparator10, Me.editMemberToolStripMenuItem, Me.RemoveMemberToolStripMenuItem, Me.AddLoadToolStripMenuItem, Me.RemoveLoadsToolStripMenuItem, Me.ToolStripSeparator6, Me.ModifyLoadToolStripMenuItem, Me.RemoveLoadToolStripMenuItem})
         Me.EditMenu.Name = "EditMenu"
-        Me.EditMenu.Size = New System.Drawing.Size(39, 20)
+        Me.EditMenu.Size = New System.Drawing.Size(47, 24)
         Me.EditMenu.Text = "&Edit"
         '
         'AddMemberToolStripMenuItem
         '
         Me.AddMemberToolStripMenuItem.Image = Global.CBAnsDes.My.Resources.Resources.addmember
         Me.AddMemberToolStripMenuItem.Name = "AddMemberToolStripMenuItem"
-        Me.AddMemberToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
+        Me.AddMemberToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
         Me.AddMemberToolStripMenuItem.Text = "Add Member"
         '
         'BeamEndsToolStripMenuItem
         '
         Me.BeamEndsToolStripMenuItem.Image = Global.CBAnsDes.My.Resources.Resources.editends
         Me.BeamEndsToolStripMenuItem.Name = "BeamEndsToolStripMenuItem"
-        Me.BeamEndsToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
+        Me.BeamEndsToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
         Me.BeamEndsToolStripMenuItem.Text = "Beam Ends"
         '
         'ToolStripSeparator10
         '
         Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
-        Me.ToolStripSeparator10.Size = New System.Drawing.Size(159, 6)
+        Me.ToolStripSeparator10.Size = New System.Drawing.Size(191, 6)
         '
         'editMemberToolStripMenuItem
         '
         Me.editMemberToolStripMenuItem.Image = Global.CBAnsDes.My.Resources.Resources.editmember
         Me.editMemberToolStripMenuItem.Name = "editMemberToolStripMenuItem"
-        Me.editMemberToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
+        Me.editMemberToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
         Me.editMemberToolStripMenuItem.Text = "Edit Member"
         '
         'RemoveMemberToolStripMenuItem
         '
         Me.RemoveMemberToolStripMenuItem.Image = Global.CBAnsDes.My.Resources.Resources.deletemember
         Me.RemoveMemberToolStripMenuItem.Name = "RemoveMemberToolStripMenuItem"
-        Me.RemoveMemberToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
+        Me.RemoveMemberToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
         Me.RemoveMemberToolStripMenuItem.Text = "RemoveMember"
         '
         'AddLoadToolStripMenuItem
         '
         Me.AddLoadToolStripMenuItem.Image = Global.CBAnsDes.My.Resources.Resources.addload
         Me.AddLoadToolStripMenuItem.Name = "AddLoadToolStripMenuItem"
-        Me.AddLoadToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
+        Me.AddLoadToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
         Me.AddLoadToolStripMenuItem.Text = "Add Load"
         '
         'RemoveLoadsToolStripMenuItem
         '
         Me.RemoveLoadsToolStripMenuItem.Image = Global.CBAnsDes.My.Resources.Resources.removeloads
         Me.RemoveLoadsToolStripMenuItem.Name = "RemoveLoadsToolStripMenuItem"
-        Me.RemoveLoadsToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
+        Me.RemoveLoadsToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
         Me.RemoveLoadsToolStripMenuItem.Text = "Remove Loads"
         '
         'ToolStripSeparator6
         '
         Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
-        Me.ToolStripSeparator6.Size = New System.Drawing.Size(159, 6)
+        Me.ToolStripSeparator6.Size = New System.Drawing.Size(191, 6)
         '
         'ModifyLoadToolStripMenuItem
         '
         Me.ModifyLoadToolStripMenuItem.Image = Global.CBAnsDes.My.Resources.Resources.modifyload
         Me.ModifyLoadToolStripMenuItem.Name = "ModifyLoadToolStripMenuItem"
-        Me.ModifyLoadToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
+        Me.ModifyLoadToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
         Me.ModifyLoadToolStripMenuItem.Text = "Modify Load"
         '
         'RemoveLoadToolStripMenuItem
         '
         Me.RemoveLoadToolStripMenuItem.Image = Global.CBAnsDes.My.Resources.Resources.removeload
         Me.RemoveLoadToolStripMenuItem.Name = "RemoveLoadToolStripMenuItem"
-        Me.RemoveLoadToolStripMenuItem.Size = New System.Drawing.Size(162, 22)
+        Me.RemoveLoadToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
         Me.RemoveLoadToolStripMenuItem.Text = "Remove Load"
         '
         'ViewMenu
         '
         Me.ViewMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolBarToolStripMenuItem, Me.StatusBarToolStripMenuItem, Me.ResultToolStripMenuItem})
         Me.ViewMenu.Name = "ViewMenu"
-        Me.ViewMenu.Size = New System.Drawing.Size(44, 20)
+        Me.ViewMenu.Size = New System.Drawing.Size(53, 24)
         Me.ViewMenu.Text = "&View"
         '
         'ToolBarToolStripMenuItem
@@ -259,7 +261,7 @@ Partial Class MDIMain
         Me.ToolBarToolStripMenuItem.CheckOnClick = True
         Me.ToolBarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ToolBarToolStripMenuItem.Name = "ToolBarToolStripMenuItem"
-        Me.ToolBarToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
+        Me.ToolBarToolStripMenuItem.Size = New System.Drawing.Size(150, 26)
         Me.ToolBarToolStripMenuItem.Text = "&Toolbar"
         '
         'StatusBarToolStripMenuItem
@@ -268,21 +270,21 @@ Partial Class MDIMain
         Me.StatusBarToolStripMenuItem.CheckOnClick = True
         Me.StatusBarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.StatusBarToolStripMenuItem.Name = "StatusBarToolStripMenuItem"
-        Me.StatusBarToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
+        Me.StatusBarToolStripMenuItem.Size = New System.Drawing.Size(150, 26)
         Me.StatusBarToolStripMenuItem.Text = "&Status Bar"
         '
         'ResultToolStripMenuItem
         '
         Me.ResultToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShearForceDiagramToolStripMenuItem, Me.BendingMomentDiagramToolStripMenuItem, Me.DeflectionToolStripMenuItem, Me.SlopeToolStripMenuItem})
         Me.ResultToolStripMenuItem.Name = "ResultToolStripMenuItem"
-        Me.ResultToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
+        Me.ResultToolStripMenuItem.Size = New System.Drawing.Size(150, 26)
         Me.ResultToolStripMenuItem.Text = "Result"
         '
         'ShearForceDiagramToolStripMenuItem
         '
         Me.ShearForceDiagramToolStripMenuItem.CheckOnClick = True
         Me.ShearForceDiagramToolStripMenuItem.Name = "ShearForceDiagramToolStripMenuItem"
-        Me.ShearForceDiagramToolStripMenuItem.Size = New System.Drawing.Size(215, 22)
+        Me.ShearForceDiagramToolStripMenuItem.Size = New System.Drawing.Size(261, 26)
         Me.ShearForceDiagramToolStripMenuItem.Text = "Shear Force Diagram"
         '
         'BendingMomentDiagramToolStripMenuItem
@@ -291,27 +293,27 @@ Partial Class MDIMain
         Me.BendingMomentDiagramToolStripMenuItem.CheckOnClick = True
         Me.BendingMomentDiagramToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.BendingMomentDiagramToolStripMenuItem.Name = "BendingMomentDiagramToolStripMenuItem"
-        Me.BendingMomentDiagramToolStripMenuItem.Size = New System.Drawing.Size(215, 22)
+        Me.BendingMomentDiagramToolStripMenuItem.Size = New System.Drawing.Size(261, 26)
         Me.BendingMomentDiagramToolStripMenuItem.Text = "Bending Moment Diagram"
         '
         'DeflectionToolStripMenuItem
         '
         Me.DeflectionToolStripMenuItem.CheckOnClick = True
         Me.DeflectionToolStripMenuItem.Name = "DeflectionToolStripMenuItem"
-        Me.DeflectionToolStripMenuItem.Size = New System.Drawing.Size(215, 22)
+        Me.DeflectionToolStripMenuItem.Size = New System.Drawing.Size(261, 26)
         Me.DeflectionToolStripMenuItem.Text = "Deflection"
         '
         'SlopeToolStripMenuItem
         '
         Me.SlopeToolStripMenuItem.Name = "SlopeToolStripMenuItem"
-        Me.SlopeToolStripMenuItem.Size = New System.Drawing.Size(215, 22)
+        Me.SlopeToolStripMenuItem.Size = New System.Drawing.Size(261, 26)
         Me.SlopeToolStripMenuItem.Text = "Slope"
         '
         'ComputeToolStripMenuItem
         '
         Me.ComputeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateToolStripMenuItem, Me.AnalyzeToolStripMenuItem, Me.DesignToolStripMenuItem})
         Me.ComputeToolStripMenuItem.Name = "ComputeToolStripMenuItem"
-        Me.ComputeToolStripMenuItem.Size = New System.Drawing.Size(69, 20)
+        Me.ComputeToolStripMenuItem.Size = New System.Drawing.Size(82, 24)
         Me.ComputeToolStripMenuItem.Text = "Compute"
         '
         'CreateToolStripMenuItem
@@ -319,7 +321,7 @@ Partial Class MDIMain
         Me.CreateToolStripMenuItem.CheckOnClick = True
         Me.CreateToolStripMenuItem.Name = "CreateToolStripMenuItem"
         Me.CreateToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7
-        Me.CreateToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.CreateToolStripMenuItem.Size = New System.Drawing.Size(160, 26)
         Me.CreateToolStripMenuItem.Text = "Create"
         '
         'AnalyzeToolStripMenuItem
@@ -327,75 +329,76 @@ Partial Class MDIMain
         Me.AnalyzeToolStripMenuItem.CheckOnClick = True
         Me.AnalyzeToolStripMenuItem.Name = "AnalyzeToolStripMenuItem"
         Me.AnalyzeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.AnalyzeToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.AnalyzeToolStripMenuItem.Size = New System.Drawing.Size(160, 26)
         Me.AnalyzeToolStripMenuItem.Text = "Analyze"
         '
         'DesignToolStripMenuItem
         '
         Me.DesignToolStripMenuItem.Enabled = False
         Me.DesignToolStripMenuItem.Name = "DesignToolStripMenuItem"
-        Me.DesignToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.DesignToolStripMenuItem.Size = New System.Drawing.Size(160, 26)
         Me.DesignToolStripMenuItem.Text = "Design"
         '
         'ToolsMenu
         '
         Me.ToolsMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.memdetailsToolStripMenuItem, Me.ToolStripSeparator11, Me.CalculatorToolStripMenuItem})
         Me.ToolsMenu.Name = "ToolsMenu"
-        Me.ToolsMenu.Size = New System.Drawing.Size(46, 20)
+        Me.ToolsMenu.Size = New System.Drawing.Size(56, 24)
         Me.ToolsMenu.Text = "&Tools"
         '
         'memdetailsToolStripMenuItem
         '
         Me.memdetailsToolStripMenuItem.Name = "memdetailsToolStripMenuItem"
-        Me.memdetailsToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
+        Me.memdetailsToolStripMenuItem.Size = New System.Drawing.Size(176, 26)
         Me.memdetailsToolStripMenuItem.Text = "&Matrix Details"
         '
         'ToolStripSeparator11
         '
         Me.ToolStripSeparator11.Name = "ToolStripSeparator11"
-        Me.ToolStripSeparator11.Size = New System.Drawing.Size(143, 6)
+        Me.ToolStripSeparator11.Size = New System.Drawing.Size(173, 6)
         '
         'CalculatorToolStripMenuItem
         '
         Me.CalculatorToolStripMenuItem.Name = "CalculatorToolStripMenuItem"
-        Me.CalculatorToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
+        Me.CalculatorToolStripMenuItem.Size = New System.Drawing.Size(176, 26)
         Me.CalculatorToolStripMenuItem.Text = "Calculator"
         '
         'HelpMenu
         '
         Me.HelpMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripSeparator8, Me.GeneralInstructionToolStripMenuItem, Me.ToolStripSeparator1, Me.AboutToolStripMenuItem})
         Me.HelpMenu.Name = "HelpMenu"
-        Me.HelpMenu.Size = New System.Drawing.Size(44, 20)
+        Me.HelpMenu.Size = New System.Drawing.Size(53, 24)
         Me.HelpMenu.Text = "&Help"
         '
         'ToolStripSeparator8
         '
         Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
-        Me.ToolStripSeparator8.Size = New System.Drawing.Size(171, 6)
+        Me.ToolStripSeparator8.Size = New System.Drawing.Size(205, 6)
         '
         'GeneralInstructionToolStripMenuItem
         '
         Me.GeneralInstructionToolStripMenuItem.Name = "GeneralInstructionToolStripMenuItem"
-        Me.GeneralInstructionToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.GeneralInstructionToolStripMenuItem.Size = New System.Drawing.Size(208, 26)
         Me.GeneralInstructionToolStripMenuItem.Text = "General Instruction"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(171, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(205, 6)
         '
         'AboutToolStripMenuItem
         '
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(208, 26)
         Me.AboutToolStripMenuItem.Text = "&About ..."
         '
         'ToolStrip
         '
+        Me.ToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.ToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripButton, Me.OpenToolStripButton, Me.SaveToolStripButton, Me.ToolStripSeparator2})
-        Me.ToolStrip.Location = New System.Drawing.Point(0, 24)
+        Me.ToolStrip.Location = New System.Drawing.Point(0, 28)
         Me.ToolStrip.Name = "ToolStrip"
-        Me.ToolStrip.Size = New System.Drawing.Size(884, 25)
+        Me.ToolStrip.Size = New System.Drawing.Size(1056, 27)
         Me.ToolStrip.TabIndex = 6
         Me.ToolStrip.Text = "ToolStrip"
         '
@@ -405,7 +408,7 @@ Partial Class MDIMain
         Me.NewToolStripButton.Image = CType(resources.GetObject("NewToolStripButton.Image"), System.Drawing.Image)
         Me.NewToolStripButton.ImageTransparentColor = System.Drawing.Color.Black
         Me.NewToolStripButton.Name = "NewToolStripButton"
-        Me.NewToolStripButton.Size = New System.Drawing.Size(23, 22)
+        Me.NewToolStripButton.Size = New System.Drawing.Size(24, 24)
         Me.NewToolStripButton.Text = "New"
         '
         'OpenToolStripButton
@@ -414,7 +417,7 @@ Partial Class MDIMain
         Me.OpenToolStripButton.Image = CType(resources.GetObject("OpenToolStripButton.Image"), System.Drawing.Image)
         Me.OpenToolStripButton.ImageTransparentColor = System.Drawing.Color.Black
         Me.OpenToolStripButton.Name = "OpenToolStripButton"
-        Me.OpenToolStripButton.Size = New System.Drawing.Size(23, 22)
+        Me.OpenToolStripButton.Size = New System.Drawing.Size(24, 24)
         Me.OpenToolStripButton.Text = "Open"
         '
         'SaveToolStripButton
@@ -423,37 +426,40 @@ Partial Class MDIMain
         Me.SaveToolStripButton.Image = CType(resources.GetObject("SaveToolStripButton.Image"), System.Drawing.Image)
         Me.SaveToolStripButton.ImageTransparentColor = System.Drawing.Color.Black
         Me.SaveToolStripButton.Name = "SaveToolStripButton"
-        Me.SaveToolStripButton.Size = New System.Drawing.Size(23, 22)
+        Me.SaveToolStripButton.Size = New System.Drawing.Size(24, 24)
         Me.SaveToolStripButton.Text = "Save"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 27)
         '
         'StatusStrip
         '
+        Me.StatusStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel})
-        Me.StatusStrip.Location = New System.Drawing.Point(0, 639)
+        Me.StatusStrip.Location = New System.Drawing.Point(0, 672)
         Me.StatusStrip.Name = "StatusStrip"
-        Me.StatusStrip.Size = New System.Drawing.Size(884, 22)
+        Me.StatusStrip.Padding = New System.Windows.Forms.Padding(1, 0, 19, 0)
+        Me.StatusStrip.Size = New System.Drawing.Size(1056, 25)
         Me.StatusStrip.TabIndex = 7
         Me.StatusStrip.Text = "StatusStrip"
         '
         'ToolStripStatusLabel
         '
         Me.ToolStripStatusLabel.Name = "ToolStripStatusLabel"
-        Me.ToolStripStatusLabel.Size = New System.Drawing.Size(180, 17)
+        Me.ToolStripStatusLabel.Size = New System.Drawing.Size(226, 20)
         Me.ToolStripStatusLabel.Text = "Click on the beam & loads to edit.."
         '
         'ToolStrip1
         '
         Me.ToolStrip1.AutoSize = False
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.ToolStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripButton1, Me.ToolStripButton2, Me.ToolStripSeparator7, Me.ToolStripButton3, Me.ToolStripButton4, Me.ToolStripButton5, Me.ToolStripButton6, Me.ToolStripSeparator9, Me.ToolStripButton7, Me.ToolStripButton8})
-        Me.ToolStrip1.Location = New System.Drawing.Point(0, 594)
+        Me.ToolStrip1.Location = New System.Drawing.Point(0, 617)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(884, 45)
+        Me.ToolStrip1.Size = New System.Drawing.Size(1056, 55)
         Me.ToolStrip1.TabIndex = 9
         Me.ToolStrip1.Text = "ToolStrip1"
         '
@@ -472,7 +478,7 @@ Partial Class MDIMain
         Me.ToolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton1.Name = "ToolStripButton1"
-        Me.ToolStripButton1.Size = New System.Drawing.Size(40, 42)
+        Me.ToolStripButton1.Size = New System.Drawing.Size(40, 52)
         Me.ToolStripButton1.Text = "Add Member"
         '
         'ToolStripButton2
@@ -482,13 +488,13 @@ Partial Class MDIMain
         Me.ToolStripButton2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ToolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton2.Name = "ToolStripButton2"
-        Me.ToolStripButton2.Size = New System.Drawing.Size(40, 42)
+        Me.ToolStripButton2.Size = New System.Drawing.Size(40, 52)
         Me.ToolStripButton2.Text = "Edit Ends"
         '
         'ToolStripSeparator7
         '
         Me.ToolStripSeparator7.Name = "ToolStripSeparator7"
-        Me.ToolStripSeparator7.Size = New System.Drawing.Size(6, 45)
+        Me.ToolStripSeparator7.Size = New System.Drawing.Size(6, 55)
         '
         'ToolStripButton3
         '
@@ -497,7 +503,7 @@ Partial Class MDIMain
         Me.ToolStripButton3.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ToolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton3.Name = "ToolStripButton3"
-        Me.ToolStripButton3.Size = New System.Drawing.Size(40, 42)
+        Me.ToolStripButton3.Size = New System.Drawing.Size(40, 52)
         Me.ToolStripButton3.Text = "Edit Member"
         '
         'ToolStripButton4
@@ -507,7 +513,7 @@ Partial Class MDIMain
         Me.ToolStripButton4.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ToolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton4.Name = "ToolStripButton4"
-        Me.ToolStripButton4.Size = New System.Drawing.Size(40, 42)
+        Me.ToolStripButton4.Size = New System.Drawing.Size(40, 52)
         Me.ToolStripButton4.Text = "Delete Member"
         '
         'ToolStripButton5
@@ -517,7 +523,7 @@ Partial Class MDIMain
         Me.ToolStripButton5.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ToolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton5.Name = "ToolStripButton5"
-        Me.ToolStripButton5.Size = New System.Drawing.Size(40, 42)
+        Me.ToolStripButton5.Size = New System.Drawing.Size(40, 52)
         Me.ToolStripButton5.Text = "Add Load"
         '
         'ToolStripButton6
@@ -527,13 +533,13 @@ Partial Class MDIMain
         Me.ToolStripButton6.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ToolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton6.Name = "ToolStripButton6"
-        Me.ToolStripButton6.Size = New System.Drawing.Size(40, 42)
+        Me.ToolStripButton6.Size = New System.Drawing.Size(40, 52)
         Me.ToolStripButton6.Text = "Remove Loads"
         '
         'ToolStripSeparator9
         '
         Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
-        Me.ToolStripSeparator9.Size = New System.Drawing.Size(6, 45)
+        Me.ToolStripSeparator9.Size = New System.Drawing.Size(6, 55)
         '
         'ToolStripButton7
         '
@@ -542,7 +548,7 @@ Partial Class MDIMain
         Me.ToolStripButton7.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ToolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton7.Name = "ToolStripButton7"
-        Me.ToolStripButton7.Size = New System.Drawing.Size(40, 42)
+        Me.ToolStripButton7.Size = New System.Drawing.Size(40, 52)
         Me.ToolStripButton7.Text = "Modify Load"
         '
         'ToolStripButton8
@@ -552,17 +558,18 @@ Partial Class MDIMain
         Me.ToolStripButton8.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ToolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton8.Name = "ToolStripButton8"
-        Me.ToolStripButton8.Size = New System.Drawing.Size(40, 42)
+        Me.ToolStripButton8.Size = New System.Drawing.Size(40, 52)
         Me.ToolStripButton8.Text = "Remove Load"
         '
         'ToolStrip2
         '
         Me.ToolStrip2.AutoSize = False
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.ToolStrip2.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel2, Me.ToolStripButton10, Me.ToolStripButton9, Me.ToolStripButton11, Me.ToolStripButton12, Me.ToolStripSeparator12, Me.ToolStripSeparator13, Me.Xlabel, Me.SFlabel, Me.BMlabel, Me.DELabel, Me.SLLabel})
-        Me.ToolStrip2.Location = New System.Drawing.Point(0, 549)
+        Me.ToolStrip2.Location = New System.Drawing.Point(0, 562)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(884, 45)
+        Me.ToolStrip2.Size = New System.Drawing.Size(1056, 55)
         Me.ToolStrip2.TabIndex = 11
         Me.ToolStrip2.Text = "ToolStrip2"
         '
@@ -621,12 +628,12 @@ Partial Class MDIMain
         'ToolStripSeparator12
         '
         Me.ToolStripSeparator12.Name = "ToolStripSeparator12"
-        Me.ToolStripSeparator12.Size = New System.Drawing.Size(6, 45)
+        Me.ToolStripSeparator12.Size = New System.Drawing.Size(6, 55)
         '
         'ToolStripSeparator13
         '
         Me.ToolStripSeparator13.Name = "ToolStripSeparator13"
-        Me.ToolStripSeparator13.Size = New System.Drawing.Size(6, 45)
+        Me.ToolStripSeparator13.Size = New System.Drawing.Size(6, 55)
         '
         'Xlabel
         '
@@ -634,7 +641,7 @@ Partial Class MDIMain
         Me.Xlabel.ForeColor = System.Drawing.Color.DimGray
         Me.Xlabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.Xlabel.Name = "Xlabel"
-        Me.Xlabel.Size = New System.Drawing.Size(97, 42)
+        Me.Xlabel.Size = New System.Drawing.Size(125, 52)
         Me.Xlabel.Text = "X - Dist --->"
         Me.Xlabel.Visible = False
         '
@@ -643,7 +650,7 @@ Partial Class MDIMain
         Me.SFlabel.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SFlabel.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.SFlabel.Name = "SFlabel"
-        Me.SFlabel.Size = New System.Drawing.Size(95, 42)
+        Me.SFlabel.Size = New System.Drawing.Size(122, 52)
         Me.SFlabel.Text = "Shear Value"
         Me.SFlabel.Visible = False
         '
@@ -652,7 +659,7 @@ Partial Class MDIMain
         Me.BMlabel.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BMlabel.ForeColor = System.Drawing.Color.Crimson
         Me.BMlabel.Name = "BMlabel"
-        Me.BMlabel.Size = New System.Drawing.Size(74, 42)
+        Me.BMlabel.Size = New System.Drawing.Size(95, 52)
         Me.BMlabel.Text = "BM value"
         Me.BMlabel.Visible = False
         '
@@ -661,7 +668,7 @@ Partial Class MDIMain
         Me.DELabel.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DELabel.ForeColor = System.Drawing.Color.Green
         Me.DELabel.Name = "DELabel"
-        Me.DELabel.Size = New System.Drawing.Size(115, 42)
+        Me.DELabel.Size = New System.Drawing.Size(139, 52)
         Me.DELabel.Text = "Deflection Value"
         Me.DELabel.Visible = False
         '
@@ -670,7 +677,7 @@ Partial Class MDIMain
         Me.SLLabel.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SLLabel.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.SLLabel.Name = "SLLabel"
-        Me.SLLabel.Size = New System.Drawing.Size(85, 42)
+        Me.SLLabel.Size = New System.Drawing.Size(103, 52)
         Me.SLLabel.Text = "Slope Value"
         Me.SLLabel.Visible = False
         '
@@ -689,9 +696,9 @@ Partial Class MDIMain
         '
         'MDIMain
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(884, 661)
+        Me.ClientSize = New System.Drawing.Size(1056, 697)
         Me.Controls.Add(Me.ToolStrip2)
         Me.Controls.Add(Me.ToolStrip1)
         Me.Controls.Add(Me.ToolStrip)
@@ -700,10 +707,11 @@ Partial Class MDIMain
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.IsMdiContainer = True
         Me.MainMenuStrip = Me.MenuStrip
-        Me.MaximumSize = New System.Drawing.Size(2500, 2500)
-        Me.MinimumSize = New System.Drawing.Size(800, 600)
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.MinimumSize = New System.Drawing.Size(320, 320)
         Me.Name = "MDIMain"
         Me.Text = "Continuous Beam Analyzer ----- Developed by Samson Mano <saminnx@gmail.com>"
+        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.MenuStrip.ResumeLayout(False)
         Me.MenuStrip.PerformLayout()
         Me.ToolStrip.ResumeLayout(False)
