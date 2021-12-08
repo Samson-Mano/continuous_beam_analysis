@@ -1,8 +1,8 @@
 ﻿Module Indexes
-    Public Const max_width As Integer = 2600
     Public mem As New List(Of Member)
     Public ends As Integer
     Public Zm As Double = 1
+    Public MidPt As Point
     Public selline As Integer = -1
     Public Tselline As Integer = -1
     Public Lselline As Integer = -1

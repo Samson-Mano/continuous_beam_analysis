@@ -123,10 +123,11 @@
 ------------------------------------------------------------------------------
 1. Click on the member to select the member for adding load
 2. Click on the load to select the load for editing the load or removing the load
-3. Click and drag the member to change the location of the member
-4. Scroll to zoom 
-5. If u still have doubt sort it urself or send me a mail &lt;saminnx@gmail.com&gt;
+3. Click and drag the member to change the location of the member. This function allows you to change the location of the beam
+4. Scroll to zoom. Use middle button to Pan the view. Double click to zoom to fit
+5. If you are facing issues or any bugs send me a mail &lt;saminnx@gmail.com&gt;
 6. Visit https://sites.google.com/site/samsoninfinite/ for more support and free software products
+7. Full source code available at https://github.com/Samson-Mano
 ________________________________________________________
 </value>
   </data>

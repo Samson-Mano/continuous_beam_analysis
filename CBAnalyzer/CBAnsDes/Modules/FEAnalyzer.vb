@@ -1,7 +1,7 @@
 ﻿Module FEAnalyzer
     Dim Tmem As List(Of Member)
 
-    Public Sub TESLA(Optional ByVal c As Boolean = False)
+    Public Sub ContinuousBeam_analyzer(Optional ByVal c As Boolean = False)
         Dim _NoofDivision As Integer = 2
         Tmem = New List(Of Member)
         FixTempMem(Tmem, _NoofDivision)
@@ -960,7 +960,7 @@
         '------- Shear Force & Bending moment Coordinate Fixing
         FixDisintegration(FRmem)
         For Each X In DX
-            BeamCoords.Add(((max_width / 2 - beamcreate.coverpic.Width / 2) + 100) + (((beamcreate.coverpic.Width - 200) / FRmem.spanlength) * X))
+            BeamCoords.Add(((-(beamcreate.coverpic.Width / 2)) + 100) + (((beamcreate.coverpic.Width - 200) / FRmem.spanlength) * X))
             SF.Add(Total_ShearForce_L(Math.Round(X, 2), FRmem))
             BM.Add(Total_BendingMoment_L(Math.Round(X, 2), FRmem))
         Next

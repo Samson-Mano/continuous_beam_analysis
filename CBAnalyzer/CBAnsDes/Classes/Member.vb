@@ -6,6 +6,7 @@ Public Class Member
     Private _g As Single
     Private _spanlength As Single
     Private _rect As System.Drawing.Rectangle
+
     <Serializable()> _
     Public Structure P
         Private _pload As Single

@@ -32,15 +32,15 @@ Partial Class GeneralInstruction
         Me.RichTextBox1.Location = New System.Drawing.Point(0, 0)
         Me.RichTextBox1.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.RichTextBox1.Name = "RichTextBox1"
-        Me.RichTextBox1.Size = New System.Drawing.Size(654, 320)
+        Me.RichTextBox1.Size = New System.Drawing.Size(731, 363)
         Me.RichTextBox1.TabIndex = 0
         Me.RichTextBox1.Text = resources.GetString("RichTextBox1.Text")
         '
         'GeneralInstruction
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 17.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(11.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(654, 320)
+        Me.ClientSize = New System.Drawing.Size(731, 363)
         Me.Controls.Add(Me.RichTextBox1)
         Me.Font = New System.Drawing.Font("Verdana", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)

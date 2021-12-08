@@ -6,6 +6,11 @@
     Private _selML As Member.M
     Private _tipe As Integer
 
+    Private PanStartDrag As Point
+    Private Cursor_Pt As Point
+    Private Shared isLeftDrag As Boolean = False
+    Private Shared isMiddleDrag As Boolean = False
+
     Public Property tipe() As Integer
         Get
             Return _tipe
@@ -62,38 +67,53 @@
 
     Private Sub beamcreate_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
-            mainpic.Width = max_width
-            mainpic.Height = max_width
-            respic.Width = max_width
-            respic.Height = max_width
-            VScrollBar1.Maximum = (max_width - coverpic.Height) / 2
-            HScrollBar1.Maximum = (max_width - coverpic.Width) / 2
+            'mainpic.Width = 1600
+            'mainpic.Height = 1600
+            'respic.Width = 1600
+            'respic.Height = 1600
+
+
+            mainpic.Dock = DockStyle.Fill
+            respic.Dock = DockStyle.Fill
+
+            MidPt = New Point(mainpic.Width / 2, mainpic.Height / 2)
+
+            'VScrollBar1.Maximum = (1600 - coverpic.Height) / 2
+            ' HScrollBar1.Maximum = (1600 - coverpic.Width) / 2
             'VScrollBar1.Minimum = 100
             'HScrollBar1.Minimum = 50
-            VScrollBar1.Value = VScrollBar1.Maximum / 2
-            HScrollBar1.Value = HScrollBar1.Maximum / 2
+            ' VScrollBar1.Value = VScrollBar1.Maximum / 2
+            ' HScrollBar1.Value = HScrollBar1.Maximum / 2
             MDIMain.SFlabel.Visible = False
             MDIMain.BMlabel.Visible = False
             MDIMain.Xlabel.Visible = False
             AddHandler Me.SizeChanged, AddressOf sizemonitor
             sizemonitor()
         Catch ex As Exception
-            MsgBox("Something went wrong")
+            MsgBox("Fundamental Error !!!!")
         End Try
 
     End Sub
 
 #Region "Mainpic Events"
 #Region "Mainpic Paint Events"
-
     Private Sub mainpic_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles mainpic.Paint
         e.Graphics.ScaleTransform(Zm, Zm)
-        '---Grids
-        'For i = 0 To max_width Step 100
+        e.Graphics.TranslateTransform(MidPt.X, MidPt.Y)
+
+        ' Zero point for reference
+        ' e.Graphics.DrawRectangle(Pens.BlueViolet, New Rectangle(New Point(-10, -10), New Size(20, 20)))
+
+
+        ''---Grids (Paint grid removed in 2021 version)
+        'For i = 0 To 1600 Step 100
         '    e.Graphics.DrawLine(Pens.Beige, i, 0, i, ht)
-        '    e.Graphics.DrawLine(Pens.Beige, 0, i, max_width, i)
+        '    e.Graphics.DrawLine(Pens.Beige, 0, i, 1600, i)
         '    'e.Graphics.DrawString(i, Font, Brushes.Brown, i, ht * (8 / 10))
         'Next
+
+
+
         paintBeam(e)
         paintEnds(e)
         paintSupport(e)
@@ -111,11 +131,13 @@
         For Each itm In mem
             TotLength = TotLength + itm.spanlength
         Next
-        StDist = (max_width / 2 - coverpic.Width / 2) + 100
+
+
+        StDist = (-(coverpic.Width / 2)) + 100
         ScaTotLength = coverpic.Width - 200
 
-        e.Graphics.DrawLine(BeamPen, StDist, ht / 2, StDist + ScaTotLength, ht / 2)
-        e.Graphics.DrawLine(Pens.CadetBlue, StDist, (ht / 2 + 100), StDist, (ht / 2 + 140))
+        e.Graphics.DrawLine(BeamPen, StDist, 0, StDist + ScaTotLength, 0)
+        e.Graphics.DrawLine(Pens.CadetBlue, StDist, (0 + 100), StDist, (0 + 140))
 
         'e.Graphics.DrawRectangle(Pens.DarkBlue, StDist - 2, (ht / 2) - 2, 4, 4)
         'e.Graphics.FillRectangle(Brushes.DarkBlue, StDist - 2, (ht / 2) - 2, 4, 4)
@@ -124,27 +146,35 @@
         Dim dist As Single = 0
         For Each itm In mem
             dist = dist + itm.spanlength
-            e.Graphics.DrawLine(Pens.CadetBlue, StDist + (dist * (ScaTotLength / TotLength)), (ht / 2 + 100), StDist + (dist * (ScaTotLength / TotLength)), (ht / 2 + 140))
+            e.Graphics.DrawLine(Pens.CadetBlue, StDist + (dist * (ScaTotLength / TotLength)), (0 + 100), StDist + (dist * (ScaTotLength / TotLength)), (0 + 140))
             'e.Graphics.DrawRectangle(Pens.DarkBlue, (StDist + (dist * (ScaTotLength / TotLength))) - 2, (ht / 2) - 2, 4, 4)
             'e.Graphics.FillRectangle(Brushes.DarkBlue, (StDist + (dist * (ScaTotLength / TotLength))) - 2, (ht / 2) - 2, 4, 4)
 
             '---Dimension Line
             Dim adcap As New System.Drawing.Drawing2D.AdjustableArrowCap(3, 5)
-            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(Idist, (ht / 2 + 120)), New Point(StDist + (dist * (ScaTotLength / TotLength)), (ht / 2 + 120)), Color.CadetBlue, Color.Azure)
+            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(Idist, (0 + 120)), New Point(StDist + (dist * (ScaTotLength / TotLength)), (0 + 120)), Color.CadetBlue, Color.Azure)
             linGrBrush.SetSigmaBellShape(0.5, 1)
             dimpen.Brush = linGrBrush
             dimpen.CustomStartCap = adcap
             dimpen.CustomEndCap = adcap
-            e.Graphics.DrawLine(dimpen, Idist, (ht / 2 + 120), StDist + (dist * (ScaTotLength / TotLength)), (ht / 2 + 120))
-            Dim R As New System.Drawing.Rectangle((Idist) * Zm, ((ht / 2) - 100) * Zm, ((StDist + (dist * (ScaTotLength / TotLength))) - Idist) * Zm, 140 * Zm)
+            e.Graphics.DrawLine(dimpen, Idist, (0 + 120), StDist + (dist * (ScaTotLength / TotLength)), (0 + 120))
+
+
+            ' Defining the Rectangle for selecting the beam element
+            Dim R As New System.Drawing.Rectangle((Idist), ((0) - 100), ((StDist + (dist * (ScaTotLength / TotLength))) - Idist), 140)
+
+            ' e.Graphics.DrawRectangle(Pens.Black, R)
             mem(mem.IndexOf(itm)).rect = R
-            e.Graphics.DrawString(itm.spanlength, Font, Brushes.DodgerBlue, ((StDist + (dist * (ScaTotLength / TotLength))) + Idist) / 2, (ht / 2 + 115))
-            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(Idist, (ht / 2 - 3)), New Point(StDist + (dist * (ScaTotLength / TotLength)), (ht / 2 + 3)), Color.LightBlue, Color.Aqua)
+            '==================================================================================================================================
+
+
+            e.Graphics.DrawString(itm.spanlength, Font, Brushes.DodgerBlue, ((StDist + (dist * (ScaTotLength / TotLength))) + Idist) / 2, (0 + 115))
+            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(Idist, (0 - 3)), New Point(StDist + (dist * (ScaTotLength / TotLength)), (0 + 3)), Color.LightBlue, Color.Aqua)
             linGrBrush.SetSigmaBellShape(0.5, 0.2)
             If selline = mem.IndexOf(itm) Or Tselline = mem.IndexOf(itm) Then
-                e.Graphics.DrawRectangle(Pens.White, (Idist), ((ht / 2) - 3), ((StDist + (dist * (ScaTotLength / TotLength))) - Idist), 6)
-                e.Graphics.FillRectangle(linGrBrush, (Idist), ((ht / 2) - 3), ((StDist + (dist * (ScaTotLength / TotLength))) - Idist), 6)
-                e.Graphics.DrawLine(BeamPen, (Idist), ht / 2, StDist + (dist * (ScaTotLength / TotLength)), ht / 2)
+                e.Graphics.DrawRectangle(Pens.WhiteSmoke, (Idist), ((0) - 3), ((StDist + (dist * (ScaTotLength / TotLength))) - Idist), 6)
+                e.Graphics.FillRectangle(linGrBrush, (Idist), ((0) - 3), ((StDist + (dist * (ScaTotLength / TotLength))) - Idist), 6)
+                e.Graphics.DrawLine(BeamPen, (Idist), 0, StDist + (dist * (ScaTotLength / TotLength)), 0)
             End If
             Idist = StDist + (dist * (ScaTotLength / TotLength))
         Next
@@ -160,78 +190,78 @@
         For Each itm In mem
             TotLength = TotLength + itm.spanlength
         Next
-        StDist = (max_width / 2 - coverpic.Width / 2) + 100
+        StDist = (-(coverpic.Width / 2)) + 100
         ScaTotLength = coverpic.Width - 200
 
         '----Ends
         If ends = 1 Then 'Fixed-Fixed
             '---end1
-            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(StDist - 15, ht / 2), New Point(StDist - 32, ht / 2), Color.Beige, Color.Firebrick)
-            e.Graphics.DrawRectangle(Pens.White, StDist - 15, ht / 2 - 35, 15, 70)
-            e.Graphics.FillRectangle(linGrBrush, StDist - 15, ht / 2 - 35, 15, 70)
+            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(StDist - 15, 0), New Point(StDist - 32, 0), Color.Beige, Color.Firebrick)
+            e.Graphics.DrawRectangle(Pens.WhiteSmoke, StDist - 15, 0 - 35, 15, 70)
+            e.Graphics.FillRectangle(linGrBrush, StDist - 15, 0 - 35, 15, 70)
             '---end2
-            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(StDist + ScaTotLength, ht / 2), New Point(StDist + ScaTotLength + 15, ht / 2), Color.Beige, Color.Firebrick)
-            e.Graphics.DrawRectangle(Pens.White, StDist + ScaTotLength, ht / 2 - 35, 15, 70)
-            e.Graphics.FillRectangle(linGrBrush, StDist + ScaTotLength, ht / 2 - 35, 15, 70)
+            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(StDist + ScaTotLength, 0), New Point(StDist + ScaTotLength + 15, 0), Color.Beige, Color.Firebrick)
+            e.Graphics.DrawRectangle(Pens.WhiteSmoke, StDist + ScaTotLength, 0 - 35, 15, 70)
+            e.Graphics.FillRectangle(linGrBrush, StDist + ScaTotLength, 0 - 35, 15, 70)
         ElseIf ends = 2 Then 'Fixed-Free
             '---end1
-            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(StDist - 15, ht / 2), New Point(StDist - 32, ht / 2), Color.Beige, Color.Firebrick)
-            e.Graphics.DrawRectangle(Pens.White, StDist - 15, ht / 2 - 35, 15, 70)
-            e.Graphics.FillRectangle(linGrBrush, StDist - 15, ht / 2 - 35, 15, 70)
+            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(StDist - 15, 0), New Point(StDist - 32, 0), Color.Beige, Color.Firebrick)
+            e.Graphics.DrawRectangle(Pens.WhiteSmoke, StDist - 15, 0 - 35, 15, 70)
+            e.Graphics.FillRectangle(linGrBrush, StDist - 15, 0 - 35, 15, 70)
 
         ElseIf ends = 3 Then 'Pinned-Pinned
             '---end1
-            e.Graphics.DrawLine(dofpen, StDist, ht / 2 + 3, StDist - 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, StDist, ht / 2 + 3, StDist + 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, StDist + 8, ht / 2 + 19, StDist - 8, ht / 2 + 19)
+            e.Graphics.DrawLine(dofpen, StDist, 0 + 3, StDist - 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, StDist, 0 + 3, StDist + 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, StDist + 8, 0 + 19, StDist - 8, 0 + 19)
 
-            e.Graphics.DrawLine(dofpen, StDist - 8, ht / 2 + 19, StDist, ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, StDist, ht / 2 + 19, StDist - 8, ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, StDist + 8, ht / 2 + 19, StDist, ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, StDist, ht / 2 + 19, StDist + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, StDist - 8, 0 + 19, StDist, 0 + 25)
+            e.Graphics.DrawLine(dofpen, StDist, 0 + 19, StDist - 8, 0 + 25)
+            e.Graphics.DrawLine(dofpen, StDist + 8, 0 + 19, StDist, 0 + 25)
+            e.Graphics.DrawLine(dofpen, StDist, 0 + 19, StDist + 8, 0 + 25)
 
-            e.Graphics.DrawLine(dofpen, StDist - 8, ht / 2 + 25, StDist + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, StDist - 8, 0 + 25, StDist + 8, 0 + 25)
             '---end2
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), ht / 2 + 3, (StDist + ScaTotLength) - 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), ht / 2 + 3, (StDist + ScaTotLength) + 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) + 8, ht / 2 + 19, (StDist + ScaTotLength) - 8, ht / 2 + 19)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), 0 + 3, (StDist + ScaTotLength) - 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), 0 + 3, (StDist + ScaTotLength) + 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) + 8, 0 + 19, (StDist + ScaTotLength) - 8, 0 + 19)
 
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) - 8, ht / 2 + 19, (StDist + ScaTotLength), ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), ht / 2 + 19, (StDist + ScaTotLength) - 8, ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) + 8, ht / 2 + 19, (StDist + ScaTotLength), ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), ht / 2 + 19, (StDist + ScaTotLength) + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) - 8, 0 + 19, (StDist + ScaTotLength), 0 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), 0 + 19, (StDist + ScaTotLength) - 8, 0 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) + 8, 0 + 19, (StDist + ScaTotLength), 0 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), 0 + 19, (StDist + ScaTotLength) + 8, 0 + 25)
 
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) - 8, ht / 2 + 25, (StDist + ScaTotLength) + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) - 8, 0 + 25, (StDist + ScaTotLength) + 8, 0 + 25)
             'ElseIf ends = 4 Then 'Free-Free
             '----
         ElseIf ends = 5 Then 'Fixed-Pinned
             '---end1
-            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(StDist - 15, ht / 2), New Point(StDist - 32, ht / 2), Color.Beige, Color.Firebrick)
-            e.Graphics.DrawRectangle(Pens.White, StDist - 15, ht / 2 - 35, 15, 70)
-            e.Graphics.FillRectangle(linGrBrush, StDist - 15, ht / 2 - 35, 15, 70)
+            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(StDist - 15, 0), New Point(StDist - 32, 0), Color.Beige, Color.Firebrick)
+            e.Graphics.DrawRectangle(Pens.WhiteSmoke, StDist - 15, 0 - 35, 15, 70)
+            e.Graphics.FillRectangle(linGrBrush, StDist - 15, 0 - 35, 15, 70)
             '---end2
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), ht / 2 + 3, (StDist + ScaTotLength) - 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), ht / 2 + 3, (StDist + ScaTotLength) + 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) + 8, ht / 2 + 19, (StDist + ScaTotLength) - 8, ht / 2 + 19)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), 0 + 3, (StDist + ScaTotLength) - 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), 0 + 3, (StDist + ScaTotLength) + 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) + 8, 0 + 19, (StDist + ScaTotLength) - 8, 0 + 19)
 
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) - 8, ht / 2 + 19, (StDist + ScaTotLength), ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), ht / 2 + 19, (StDist + ScaTotLength) - 8, ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) + 8, ht / 2 + 19, (StDist + ScaTotLength), ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), ht / 2 + 19, (StDist + ScaTotLength) + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) - 8, 0 + 19, (StDist + ScaTotLength), 0 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), 0 + 19, (StDist + ScaTotLength) - 8, 0 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) + 8, 0 + 19, (StDist + ScaTotLength), 0 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), 0 + 19, (StDist + ScaTotLength) + 8, 0 + 25)
 
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) - 8, ht / 2 + 25, (StDist + ScaTotLength) + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) - 8, 0 + 25, (StDist + ScaTotLength) + 8, 0 + 25)
         ElseIf ends = 6 Then
             '---end1
-            e.Graphics.DrawLine(dofpen, StDist, ht / 2 + 3, StDist - 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, StDist, ht / 2 + 3, StDist + 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, StDist + 8, ht / 2 + 19, StDist - 8, ht / 2 + 19)
+            e.Graphics.DrawLine(dofpen, StDist, 0 + 3, StDist - 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, StDist, 0 + 3, StDist + 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, StDist + 8, 0 + 19, StDist - 8, 0 + 19)
 
-            e.Graphics.DrawLine(dofpen, StDist - 8, ht / 2 + 19, StDist, ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, StDist, ht / 2 + 19, StDist - 8, ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, StDist + 8, ht / 2 + 19, StDist, ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, StDist, ht / 2 + 19, StDist + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, StDist - 8, 0 + 19, StDist, 0 + 25)
+            e.Graphics.DrawLine(dofpen, StDist, 0 + 19, StDist - 8, 0 + 25)
+            e.Graphics.DrawLine(dofpen, StDist + 8, 0 + 19, StDist, 0 + 25)
+            e.Graphics.DrawLine(dofpen, StDist, 0 + 19, StDist + 8, 0 + 25)
 
-            e.Graphics.DrawLine(dofpen, StDist - 8, ht / 2 + 25, StDist + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, StDist - 8, 0 + 25, StDist + 8, 0 + 25)
         End If
     End Sub
 
@@ -244,7 +274,7 @@
         For Each itm In mem
             TotLength = TotLength + itm.spanlength
         Next
-        StDist = (max_width / 2 - coverpic.Width / 2) + 100
+        StDist = (-(coverpic.Width / 2)) + 100
         ScaTotLength = coverpic.Width - 200
 
         Dim dist As Single
@@ -253,16 +283,16 @@
             If mem.IndexOf(itm) = (mem.Count - 1) Then
                 Exit Sub
             End If
-            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))), ht / 2 + 3, (StDist + (dist * (ScaTotLength / TotLength))) - 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))), ht / 2 + 3, (StDist + (dist * (ScaTotLength / TotLength))) + 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))) + 8, ht / 2 + 19, (StDist + (dist * (ScaTotLength / TotLength))) - 8, ht / 2 + 19)
+            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))), 0 + 3, (StDist + (dist * (ScaTotLength / TotLength))) - 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))), 0 + 3, (StDist + (dist * (ScaTotLength / TotLength))) + 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))) + 8, 0 + 19, (StDist + (dist * (ScaTotLength / TotLength))) - 8, 0 + 19)
 
-            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))) - 8, ht / 2 + 19, (StDist + (dist * (ScaTotLength / TotLength))), ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))), ht / 2 + 19, (StDist + (dist * (ScaTotLength / TotLength))) - 8, ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))) + 8, ht / 2 + 19, (StDist + (dist * (ScaTotLength / TotLength))), ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))), ht / 2 + 19, (StDist + (dist * (ScaTotLength / TotLength))) + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))) - 8, 0 + 19, (StDist + (dist * (ScaTotLength / TotLength))), 0 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))), 0 + 19, (StDist + (dist * (ScaTotLength / TotLength))) - 8, 0 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))) + 8, 0 + 19, (StDist + (dist * (ScaTotLength / TotLength))), 0 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))), 0 + 19, (StDist + (dist * (ScaTotLength / TotLength))) + 8, 0 + 25)
 
-            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))) - 8, ht / 2 + 25, (StDist + (dist * (ScaTotLength / TotLength))) + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))) - 8, 0 + 25, (StDist + (dist * (ScaTotLength / TotLength))) + 8, 0 + 25)
         Next
     End Sub
 
@@ -291,7 +321,7 @@
                 End If
             Next
         Next
-        StDist = (max_width / 2 - coverpic.Width / 2) + 100
+        StDist = (-(coverpic.Width / 2)) + 100
         ScaTotLength = coverpic.Width - 200
 
         Dim intSTdist As Single = StDist
@@ -320,13 +350,13 @@
                 If (itm.Uload(i).udist1 = selUL.udist1) And (itm.Uload(i).uload1 = selUL.uload1) And (itm.Uload(i).udist2 = selUL.udist2) And (itm.Uload(i).uload2 = selUL.uload2) Then
                     loadpen = New System.Drawing.Pen(Color.LightPink, 2)
 
-                    e.Graphics.DrawLine(loadpen, toSX1, ht / 2 - 5, toSX1, (ht / 2) - toSY1)
-                    e.Graphics.DrawString(itm.Uload(i).uload1, Font, loadpen.Brush, toSX1, ((ht / 2) - 20) - toSY1)
+                    e.Graphics.DrawLine(loadpen, toSX1, 0 - 5, toSX1, (0) - toSY1)
+                    e.Graphics.DrawString(itm.Uload(i).uload1, Font, loadpen.Brush, toSX1, ((0) - 20) - toSY1)
                 End If
                 loadpen = New System.Drawing.Pen(Color.DeepPink, 1)
                 loadpen.CustomStartCap = adcap
-                e.Graphics.DrawLine(loadpen, toSX1, (ht / 2), toSX1, (ht / 2) - toSY1)
-                e.Graphics.DrawString(itm.Uload(i).uload1, Font, loadpen.Brush, toSX1, ((ht / 2) - 20) - toSY1)
+                e.Graphics.DrawLine(loadpen, toSX1, (0), toSX1, (0) - toSY1)
+                e.Graphics.DrawString(itm.Uload(i).uload1, Font, loadpen.Brush, toSX1, ((0) - 20) - toSY1)
 
                 If toSY1 >= toSY2 Then
                     Dim temp As Member.U
@@ -334,8 +364,14 @@
                     temp.uload2 = itm.Uload(i).uload2
                     temp.udist1 = itm.Uload(i).udist1
                     temp.udist2 = itm.Uload(i).udist2
-                    Dim R As New System.Drawing.Rectangle((toSX1) * Zm, ((ht / 2) - toSY1) * Zm, (toSX2 - toSX1) * Zm, toSY1 * Zm)
+
+                    ' Defining the Rectangle for selecting the UVL Load
+                    Dim R As New System.Drawing.Rectangle((toSX1), ((0) - toSY1), (toSX2 - toSX1), toSY1)
                     temp.rect = R
+                    'e.Graphics.DrawRectangle(Pens.Black, R)
+
+                    '==================================================================================================================================
+
                     Dim ind As Integer = i
                     mem(mem.IndexOf(itm)).Uload.Insert(ind, temp)
                     mem(mem.IndexOf(itm)).Uload.RemoveAt(ind + 1)
@@ -345,8 +381,13 @@
                     temp.uload2 = itm.Uload(i).uload2
                     temp.udist1 = itm.Uload(i).udist1
                     temp.udist2 = itm.Uload(i).udist2
-                    Dim R As New System.Drawing.Rectangle((toSX1) * Zm, ((ht / 2) - toSY2) * Zm, (toSX2 - toSX1) * Zm, toSY2 * Zm)
+
+                    ' Defining the Rectangle for selecting the UVL Load
+                    Dim R As New System.Drawing.Rectangle((toSX1), ((0) - toSY2), (toSX2 - toSX1), toSY2)
                     temp.rect = R
+                    'e.Graphics.DrawRectangle(Pens.Black, R)
+
+                    '==================================================================================================================================
                     Dim ind As Integer = i
                     mem(mem.IndexOf(itm)).Uload.Insert(ind, temp)
                     mem(mem.IndexOf(itm)).Uload.RemoveAt(ind + 1)
@@ -356,26 +397,26 @@
                     If toSY2 = toSY1 Then
                         For k = toSX1 To toSX2 Step 10
                             loadpen = New System.Drawing.Pen(Color.LightPink, 3)
-                            e.Graphics.DrawLine(loadpen, k, (ht / 2), k, (ht / 2) - (toSY1))
+                            e.Graphics.DrawLine(loadpen, k, (0), k, (0) - (toSY1))
                             loadpen = New System.Drawing.Pen(Color.DeepPink, 1)
                             loadpen.CustomStartCap = adcap
-                            e.Graphics.DrawLine(loadpen, k, (ht / 2), k, (ht / 2) - (toSY1))
+                            e.Graphics.DrawLine(loadpen, k, (0), k, (0) - (toSY1))
                         Next
                     ElseIf toSY2 > toSY1 Then
                         For k = toSX1 To toSX2 Step 10
                             loadpen = New System.Drawing.Pen(Color.LightPink, 3)
-                            e.Graphics.DrawLine(loadpen, k, (ht / 2), k, (ht / 2) - (toSY1 + (((toSY2 - toSY1) / (toSX2 - toSX1)) * (k - toSX1))))
+                            e.Graphics.DrawLine(loadpen, k, (0), k, (0) - (toSY1 + (((toSY2 - toSY1) / (toSX2 - toSX1)) * (k - toSX1))))
                             loadpen = New System.Drawing.Pen(Color.DeepPink, 1)
                             loadpen.CustomStartCap = adcap
-                            e.Graphics.DrawLine(loadpen, k, (ht / 2), k, (ht / 2) - (toSY1 + (((toSY2 - toSY1) / (toSX2 - toSX1)) * (k - toSX1))))
+                            e.Graphics.DrawLine(loadpen, k, (0), k, (0) - (toSY1 + (((toSY2 - toSY1) / (toSX2 - toSX1)) * (k - toSX1))))
                         Next
                     Else
                         For k = toSX1 To toSX2 Step 10
                             loadpen = New System.Drawing.Pen(Color.LightPink, 3)
-                            e.Graphics.DrawLine(loadpen, k, (ht / 2), k, (ht / 2) - (toSY2 + (((toSY1 - toSY2) / (toSX2 - toSX1)) * (toSX2 - k))))
+                            e.Graphics.DrawLine(loadpen, k, (0), k, (0) - (toSY2 + (((toSY1 - toSY2) / (toSX2 - toSX1)) * (toSX2 - k))))
                             loadpen = New System.Drawing.Pen(Color.DeepPink, 1)
                             loadpen.CustomStartCap = adcap
-                            e.Graphics.DrawLine(loadpen, k, (ht / 2), k, (ht / 2) - (toSY2 + (((toSY1 - toSY2) / (toSX2 - toSX1)) * (toSX2 - k))))
+                            e.Graphics.DrawLine(loadpen, k, (0), k, (0) - (toSY2 + (((toSY1 - toSY2) / (toSX2 - toSX1)) * (toSX2 - k))))
                         Next
                     End If
                 Else
@@ -383,15 +424,15 @@
                     loadpen.CustomStartCap = adcap
                     If toSY2 = toSY1 Then
                         For k = toSX1 To toSX2 Step 10
-                            e.Graphics.DrawLine(loadpen, k, (ht / 2), k, (ht / 2) - (toSY1))
+                            e.Graphics.DrawLine(loadpen, k, (0), k, (0) - (toSY1))
                         Next
                     ElseIf toSY2 > toSY1 Then
                         For k = toSX1 To toSX2 Step 10
-                            e.Graphics.DrawLine(loadpen, k, (ht / 2), k, (ht / 2) - (toSY1 + (((toSY2 - toSY1) / (toSX2 - toSX1)) * (k - toSX1))))
+                            e.Graphics.DrawLine(loadpen, k, (0), k, (0) - (toSY1 + (((toSY2 - toSY1) / (toSX2 - toSX1)) * (k - toSX1))))
                         Next
                     Else
                         For k = toSX1 To toSX2 Step 10
-                            e.Graphics.DrawLine(loadpen, k, (ht / 2), k, (ht / 2) - (toSY2 + (((toSY1 - toSY2) / (toSX2 - toSX1)) * (toSX2 - k))))
+                            e.Graphics.DrawLine(loadpen, k, (0), k, (0) - (toSY2 + (((toSY1 - toSY2) / (toSX2 - toSX1)) * (toSX2 - k))))
                         Next
                     End If
                 End If
@@ -399,12 +440,12 @@
 
                 If (itm.Uload(i).udist1 = selUL.udist1) And (itm.Uload(i).uload1 = selUL.uload1) And (itm.Uload(i).udist2 = selUL.udist2) And (itm.Uload(i).uload2 = selUL.uload2) Then
                     loadpen = New System.Drawing.Pen(Color.LightPink, 2)
-                    e.Graphics.DrawLine(loadpen, toSX2, ht / 2 - 5, toSX2, (ht / 2) - toSY2)
+                    e.Graphics.DrawLine(loadpen, toSX2, 0 - 5, toSX2, (0) - toSY2)
                 End If
                 loadpen = New System.Drawing.Pen(Color.DeepPink, 1)
                 loadpen.CustomStartCap = adcap
-                e.Graphics.DrawLine(loadpen, toSX2, (ht / 2), toSX2, (ht / 2) - toSY2)
-                e.Graphics.DrawString(itm.Uload(i).uload2, Font, loadpen.Brush, toSX2, ((ht / 2) - 20) - toSY2)
+                e.Graphics.DrawLine(loadpen, toSX2, (0), toSX2, (0) - toSY2)
+                e.Graphics.DrawString(itm.Uload(i).uload2, Font, loadpen.Brush, toSX2, ((0) - 20) - toSY2)
             Next
             '----Point Load
             j = itm.Pload.Count - 1
@@ -417,8 +458,13 @@
                 Dim temp As Member.P
                 temp.pload = itm.Pload(i).pload
                 temp.pdist = itm.Pload(i).pdist
-                Dim R As New System.Drawing.Rectangle((toSX - 4) * Zm, ((ht / 2) - toSY) * Zm, (8) * Zm, toSY * Zm)
+
+                ' Defining the Rectangle for selecting the Point Load
+                Dim R As New System.Drawing.Rectangle((toSX - 4), ((0) - toSY), (8), toSY)
                 temp.rect = R
+                'e.Graphics.DrawRectangle(Pens.Black, R)
+
+                '==================================================================================================================================
                 Dim ind As Integer = i
                 mem(mem.IndexOf(itm)).Pload.Insert(ind, temp)
                 mem(mem.IndexOf(itm)).Pload.RemoveAt(ind + 1)
@@ -426,15 +472,15 @@
                 If (itm.Pload(i).pdist = selPL.pdist) And (itm.Pload(i).pload = selPL.pload) Then
                     loadpen = New System.Drawing.Pen(Color.LightGreen, 4)
 
-                    e.Graphics.DrawLine(loadpen, toSX, ht / 2 - 5, toSX, (ht / 2) - toSY)
-                    e.Graphics.DrawString(itm.Pload(i).pload, Font, loadpen.Brush, toSX, ((ht / 2) - 20) - toSY)
+                    e.Graphics.DrawLine(loadpen, toSX, 0 - 5, toSX, (0) - toSY)
+                    e.Graphics.DrawString(itm.Pload(i).pload, Font, loadpen.Brush, toSX, ((0) - 20) - toSY)
                 End If
                 loadpen = New System.Drawing.Pen(Color.Green, 2)
                 adcap = New System.Drawing.Drawing2D.AdjustableArrowCap(3, 5)
                 loadpen.CustomStartCap = adcap
 
-                e.Graphics.DrawLine(loadpen, toSX, ht / 2, toSX, (ht / 2) - toSY)
-                e.Graphics.DrawString(itm.Pload(i).pload, Font, loadpen.Brush, toSX, ((ht / 2) - 20) - toSY)
+                e.Graphics.DrawLine(loadpen, toSX, 0, toSX, (0) - toSY)
+                e.Graphics.DrawString(itm.Pload(i).pload, Font, loadpen.Brush, toSX, ((0) - 20) - toSY)
 
             Next
             '----Moment
@@ -447,7 +493,7 @@
 
                 If (itm.Mload(i).mdist = selML.mdist) And (itm.Mload(i).mload = selML.mload) Then
                     loadpen = New System.Drawing.Pen(Color.Yellow, 4)
-                    e.Graphics.DrawArc(loadpen, toSX - 30, ((ht / 2) - 30), 60, 60, 270, 180)
+                    e.Graphics.DrawArc(loadpen, toSX - 30, ((0) - 30), 60, 60, 270, 180)
                 End If
                 loadpen = New System.Drawing.Pen(Color.Orange, 2)
                 If itm.Mload(i).mload > 0 Then
@@ -459,14 +505,20 @@
                 Dim temp As Member.M
                 temp.mload = itm.Mload(i).mload
                 temp.mdist = itm.Mload(i).mdist
-                Dim R As New System.Drawing.Rectangle((toSX) * Zm, ((ht / 2) - 30) * Zm, (30) * Zm, (60) * Zm)
+
+                ' Defining the Rectangle for selecting the Moment Load
+                Dim R As New System.Drawing.Rectangle((toSX), ((0) - 30), (30), (60))
                 temp.rect = R
+                'e.Graphics.DrawRectangle(Pens.Black, R)
+
+                '==================================================================================================================================
+
                 Dim ind As Integer = i
                 mem(mem.IndexOf(itm)).Mload.Insert(ind, temp)
                 mem(mem.IndexOf(itm)).Mload.RemoveAt(ind + 1)
 
-                e.Graphics.DrawArc(loadpen, toSX - 30, ((ht / 2) - 30), 60, 60, 270, 180)
-                e.Graphics.DrawString(Math.Abs(itm.Mload(i).mload), Font, loadpen.Brush, toSX, ((ht / 2) - 50))
+                e.Graphics.DrawArc(loadpen, toSX - 30, ((0) - 30), 60, 60, 270, 180)
+                e.Graphics.DrawString(Math.Abs(itm.Mload(i).mload), Font, loadpen.Brush, toSX, ((0) - 50))
             Next
             intSTdist = StDist + (dist * (ScaTotLength / TotLength))
         Next
@@ -496,11 +548,17 @@
         selUL = utm
         selML = mtm
         '---Line Select
-        If e.Y > (ht / 2 - 5) * Zm Then
+        Dim TempX, TempY As Double
+        TempX = (e.X / Zm) - MidPt.X
+        TempY = (e.Y / Zm) - MidPt.Y
+
+        '' MessageBox.Show(TempX.ToString() + ", " + TempY.ToString())
+
+        If TempY > -5 Then ' Select member
             Lselline = -1
             If e.Button = Windows.Forms.MouseButtons.Left Then
                 For Each itm In mem
-                    If itm.rect.Contains(e.X, e.Y) Then
+                    If itm.rect.Contains(TempX, TempY) Then
                         selline = (mem.IndexOf(itm))
                         toolstrip1Mod()
                         mainpic.Refresh()
@@ -509,7 +567,7 @@
                 Next
             ElseIf e.Button = Windows.Forms.MouseButtons.Right Then
                 For Each itm In mem
-                    If itm.rect.Contains(e.X, e.Y) Then
+                    If itm.rect.Contains(TempX, TempY) Then
                         selline = (mem.IndexOf(itm))
                     End If
                 Next
@@ -540,10 +598,10 @@
             '--Load Selection Procedure
             If e.Button = Windows.Forms.MouseButtons.Left Then
                 For Each itm In mem
-                    If itm.rect.Contains(e.X, e.Y) Then
+                    If itm.rect.Contains(TempX, TempY) = True Then
                         Lselline = mem.IndexOf(itm)
                         For Each pitm In itm.Pload
-                            If pitm.rect.Contains(e.X, e.Y) Then
+                            If pitm.rect.Contains(TempX, TempY) Then
                                 Dim uutm As New Member.U
                                 Dim mmtm As New Member.M
                                 selUL = uutm
@@ -556,7 +614,7 @@
                             End If
                         Next
                         For Each mitm In itm.Mload
-                            If mitm.rect.Contains(e.X, e.Y) Then
+                            If mitm.rect.Contains(TempX, TempY) Then
                                 Dim pptm As New Member.P
                                 Dim uutm As New Member.U
                                 selPL = pptm
@@ -569,7 +627,7 @@
                             End If
                         Next
                         For Each uitm In itm.Uload
-                            If uitm.rect.Contains(e.X, e.Y) Then
+                            If uitm.rect.Contains(TempX, TempY) Then
                                 Dim pptm As New Member.P
                                 Dim mmtm As New Member.M
                                 selPL = pptm
@@ -587,24 +645,24 @@
                 Next
             ElseIf e.Button = Windows.Forms.MouseButtons.Right Then
                 For Each itm In mem
-                    If itm.rect.Contains(e.X, e.Y) Then
+                    If itm.rect.Contains(TempX, TempY) = True Then
                         Lselline = mem.IndexOf(itm)
                         For Each pitm In itm.Pload
-                            If pitm.rect.Contains(e.X, e.Y) Then
+                            If pitm.rect.Contains(TempX, TempY) Then
                                 selPL = pitm
                                 tipe = 1
                                 GoTo r1
                             End If
                         Next
                         For Each uitm In itm.Uload
-                            If uitm.rect.Contains(e.X, e.Y) Then
+                            If uitm.rect.Contains(TempX, TempY) Then
                                 selUL = uitm
                                 tipe = 2
                                 GoTo r1
                             End If
                         Next
                         For Each mitm In itm.Mload
-                            If mitm.rect.Contains(e.X, e.Y) Then
+                            If mitm.rect.Contains(TempX, TempY) Then
                                 selML = mitm
                                 tipe = 3
                                 GoTo r1
@@ -637,12 +695,23 @@ r1:
     End Sub
 
     Private Sub mainpic_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles mainpic.MouseDown
-        If e.Y > (ht / 2 - 5) * Zm Then
+        '------ Mouse down for Click and drag
+        If e.Button = Windows.Forms.MouseButtons.Middle Then
+            '---- Pan Operation
+            isMiddleDrag = True
+            PanStartDrag = New Point((e.X / Zm) - MidPt.X, (e.Y / Zm) - MidPt.Y)
+        End If
+
+        Dim TempX, TempY As Double
+        TempX = (e.X / Zm) - MidPt.X
+        TempY = (e.Y / Zm) - MidPt.Y
+
+        If TempY > -5 Then ' Select member
             Tselline = -1
             selline = -1
             If e.Button = Windows.Forms.MouseButtons.Left Then
                 For Each itm In mem
-                    If itm.rect.Contains(e.X, e.Y) Then
+                    If itm.rect.Contains(TempX, TempY) Then
                         Tselline = (mem.IndexOf(itm))
                         mainpic.Refresh()
                         Exit Sub
@@ -656,10 +725,14 @@ r1:
 
     Private Sub mainpic_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles mainpic.MouseUp
         Try
-            If e.Y > (ht / 2 - 5) * Zm Then
+            Dim TempX, TempY As Double
+            TempX = (e.X / Zm) - MidPt.X
+            TempY = (e.Y / Zm) - MidPt.Y
+
+            If TempY > -5 Then ' Select member
                 If e.Button = Windows.Forms.MouseButtons.Left Then
                     For Each itm In mem
-                        If itm.rect.Contains(e.X, e.Y) Then
+                        If itm.rect.Contains(TempX, TempY) Then
                             If selline = Tselline Or Tselline = -1 Then
                                 Exit Sub
                             End If
@@ -677,10 +750,29 @@ r1:
                     Next
                 End If
             End If
+
+            '------ Mouse up for Click and drag
+            If e.Button = Windows.Forms.MouseButtons.Middle Then
+                '--- Pan Operation Stops
+                isMiddleDrag = False
+                mainpic.Refresh()
+            End If
+
         Catch ex As Exception
             MsgBox("Error")
         End Try
 
+    End Sub
+
+
+    Private Sub mainpic_DoubleClick(sender As Object, e As EventArgs) Handles mainpic.DoubleClick
+        ' Zoom to Fit
+        MidPt = New Point(mainpic.Width / 2, mainpic.Height / 2)
+        Zm = 1
+        MDIMain.ToolStripLabel1.Text = (Zm * 100) & "%"
+        MDIMain.ToolStripLabel2.Text = (Zm * 100) & "%"
+
+        mainpic.Refresh()
     End Sub
 
     Public Sub toolstrip1Mod()
@@ -748,70 +840,105 @@ r1:
         MDIMain.ToolStrip1.Focus()
     End Sub
 
-    Private Sub HScrollBar1_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles HScrollBar1.Scroll
-        mainpic.Left = -(HScrollBar1.Value)
-        respic.Left = -(HScrollBar1.Value)
-    End Sub
+    'Private Sub HScrollBar1_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs)
+    '    mainpic.Left = -(HScrollBar1.Value)
+    '    respic.Left = -(HScrollBar1.Value)
+    'End Sub
 
-    Private Sub VScrollBar1_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles VScrollBar1.Scroll
-        mainpic.Top = -(VScrollBar1.Value)
-        respic.Top = -(VScrollBar1.Value)
+    'Private Sub VScrollBar1_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs)
+    '    mainpic.Top = -(VScrollBar1.Value)
+    '    respic.Top = -(VScrollBar1.Value)
+    'End Sub
+
+    Private Sub mainpic_MouseMove(sender As Object, e As MouseEventArgs) Handles mainpic.MouseMove
+        '------ Mouse move drag
+        If isMiddleDrag = True Then
+            '---- Pan Operation 
+            MidPt = New Point((e.X / Zm) - PanStartDrag.X, (e.Y / Zm) - PanStartDrag.Y)
+            mainpic.Refresh()
+        End If
     End Sub
 
     Private Sub mainpic_MouseWheel(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles mainpic.MouseWheel
-        mainpic.SuspendLayout()
-        Dim xw, yw As Single
-        xw = e.X / Zm
-        yw = e.Y / Zm
+        Dim xw, yw As Double
+        mainpic.Focus()
+        xw = (e.X / Zm) - MidPt.X
+        yw = (e.Y / Zm) - MidPt.Y
         If e.Delta > 0 Then
-            If Zm < 10 Then
-                Zm = Zm + 0.25
+            If Zm < 100 Then
+                Zm = Zm + 0.1
             End If
-        Else
-            If Zm > 1 Then
-                Zm = Zm - 0.25
+        ElseIf e.Delta < 0 Then
+            If Zm > 0.101 Then
+                Zm = Zm - 0.1
+                'ElseIf Zm <= 0.1 Then
+                '    If Zm > 0.0101 Then
+                '        Zm = Zm - 0.01
+                '    ElseIf Zm <= 0.01 Then
+                '        If Zm > 0.00101 Then
+                '            Zm = Zm - 0.001
+                '        End If
+                '    End If
             End If
         End If
+        MidPt.X = (e.X / Zm) - xw
+        MidPt.Y = (e.Y / Zm) - yw
+        ' MTPic.Refresh()
+
+
+        'mainpic.SuspendLayout()
+        'Dim xw, yw As Single
+        'xw = e.X / Zm
+        'yw = e.Y / Zm
+        'If e.Delta > 0 Then
+        '    If Zm < 10 Then
+        '        Zm = Zm + 0.25
+        '    End If
+        'Else
+        '    If Zm > 1 Then
+        '        Zm = Zm - 0.25
+        '    End If
+        'End If
+        'mainpic.Refresh()
+        'If e.X <> xw * Zm Then
+        '    mainpic.Width = 1600 * Zm
+        '    mainpic.Height = ht * Zm
+        '    ' HScrollBar1.Maximum = (1600 * Zm) - coverpic.Width
+        '    ' VScrollBar1.Maximum = (1600 * Zm) - coverpic.Height
+
+        '    xw = -(mainpic.Left - ((xw * Zm) - e.X))
+        '    yw = -(mainpic.Top - ((yw * Zm) - e.Y))
+
+        '    'If xw <= HScrollBar1.Minimum Then
+        '    '    mainpic.Left = -1
+        '    '    HScrollBar1.Value = 50
+        '    'ElseIf xw >= HScrollBar1.Maximum Then
+        '    '    mainpic.Left = -HScrollBar1.Maximum
+        '    '    HScrollBar1.Value = HScrollBar1.Maximum
+        '    'Else
+        '    '    mainpic.Left = -xw
+        '    '    HScrollBar1.Value = xw
+        '    'End If
+        '    mainpic.Refresh()
+        '    'If yw <= VScrollBar1.Minimum Then
+        '    '    mainpic.Top = -1
+        '    '    VScrollBar1.Value = 100
+        '    'ElseIf yw >= VScrollBar1.Maximum Then
+        '    '    mainpic.Top = -VScrollBar1.Maximum
+        '    '    VScrollBar1.Value = VScrollBar1.Maximum
+        '    'Else
+        '    '    mainpic.Top = -yw
+        '    '    VScrollBar1.Value = yw
+        '    'End If
+
+        '    ' mainpic.Top = -(((ht * Zm) - ht) / 2)
+        '    mainpic.Invalidate()
+
+        '    mainpic.ResumeLayout()
         mainpic.Refresh()
-        If e.X <> xw * Zm Then
-            mainpic.Width = max_width * Zm
-            mainpic.Height = ht * Zm
-            HScrollBar1.Maximum = (max_width * Zm) - coverpic.Width
-            VScrollBar1.Maximum = (max_width * Zm) - coverpic.Height
-
-            xw = -(mainpic.Left - ((xw * Zm) - e.X))
-            yw = -(mainpic.Top - ((yw * Zm) - e.Y))
-
-            If xw <= HScrollBar1.Minimum Then
-                mainpic.Left = -1
-                HScrollBar1.Value = 50
-            ElseIf xw >= HScrollBar1.Maximum Then
-                mainpic.Left = -HScrollBar1.Maximum
-                HScrollBar1.Value = HScrollBar1.Maximum
-            Else
-                mainpic.Left = -xw
-                HScrollBar1.Value = xw
-            End If
-            mainpic.Refresh()
-            If yw <= VScrollBar1.Minimum Then
-                mainpic.Top = -1
-                VScrollBar1.Value = 100
-            ElseIf yw >= VScrollBar1.Maximum Then
-                mainpic.Top = -VScrollBar1.Maximum
-                VScrollBar1.Value = VScrollBar1.Maximum
-            Else
-                mainpic.Top = -yw
-                VScrollBar1.Value = yw
-            End If
-
-            ' mainpic.Top = -(((ht * Zm) - ht) / 2)
-            mainpic.Invalidate()
-
-            mainpic.ResumeLayout()
-            mainpic.Refresh()
-            MDIMain.ToolStripLabel1.Text = (Zm * 100) & "%"
-            MDIMain.ToolStripLabel2.Text = (Zm * 100) & "%"
-        End If
+        MDIMain.ToolStripLabel1.Text = (Zm * 100) & "%"
+        MDIMain.ToolStripLabel2.Text = (Zm * 100) & "%"
+        ' End If
     End Sub
 #End Region
 
@@ -920,12 +1047,15 @@ r1:
 #Region "Respic Paint Events"
     Private Sub respic_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles respic.Paint
         e.Graphics.ScaleTransform(Zm, Zm)
-        '---Grids
-        'For i = 0 To max_width Step 100
+        e.Graphics.TranslateTransform(MidPt.X, MidPt.Y)
+
+        ''---Grids (Paint grid removed in 2021 version)
+        'For i = 0 To 1600 Step 100
         '    e.Graphics.DrawLine(Pens.Beige, i, 0, i, ht)
-        '    e.Graphics.DrawLine(Pens.Beige, 0, i, max_width, i)
+        '    e.Graphics.DrawLine(Pens.Beige, 0, i, 1600, i)
         '    'e.Graphics.DrawString(i, Font, Brushes.Brown, i, ht * (8 / 10))
         'Next
+
         rpaintBeam(e)
         rpaintEnds(e)
         rpaintSupport(e)
@@ -953,20 +1083,19 @@ r1:
         For Each itm In mem
             TotLength = TotLength + itm.spanlength
         Next
-        StDist = (max_width / 2 - coverpic.Width / 2) + 100
+
+        StDist = (-(coverpic.Width / 2)) + 100
         ScaTotLength = coverpic.Width - 200
 
-        e.Graphics.DrawLine(BeamPen, StDist, ht / 2, StDist + ScaTotLength, ht / 2)
+        e.Graphics.DrawLine(BeamPen, StDist, 0, StDist + ScaTotLength, 0)
         e.Graphics.DrawLine(Pens.LightGray, StDist, (ht / 2 + 100), StDist, (ht / 2 + 140))
         Dim Idist As Single = StDist
         Dim dist As Single = 0
         For Each itm In mem
             dist = dist + itm.spanlength
             '---Dimension Line
-            e.Graphics.DrawLine(Pens.LightGray, StDist + (dist * (ScaTotLength / TotLength)), (ht / 2 + 100), StDist + (dist * (ScaTotLength / TotLength)), (ht / 2 + 140))
-
             Dim adcap As New System.Drawing.Drawing2D.AdjustableArrowCap(3, 5)
-            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(Idist, (ht / 2 + 120)), New Point(StDist + (dist * (ScaTotLength / TotLength)), (ht / 2 + 120)), Color.LightGray, Color.White)
+            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(Idist, (ht / 2 + 120)), New Point(StDist + (dist * (ScaTotLength / TotLength)), (ht / 2 + 120)), Color.LightGray, Color.WhiteSmoke)
             linGrBrush.SetSigmaBellShape(0.5, 1)
             dimpen.Brush = linGrBrush
             dimpen.CustomStartCap = adcap
@@ -987,78 +1116,78 @@ r1:
         For Each itm In mem
             TotLength = TotLength + itm.spanlength
         Next
-        StDist = (max_width / 2 - coverpic.Width / 2) + 100
+        StDist = (-(coverpic.Width / 2)) + 100
         ScaTotLength = coverpic.Width - 200
 
         '----Ends
         If ends = 1 Then 'Fixed-Fixed
             '---end1
-            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(StDist - 15, ht / 2), New Point(StDist - 32, ht / 2), Color.White, Color.LightGray)
-            e.Graphics.DrawRectangle(Pens.White, StDist - 15, ht / 2 - 35, 15, 70)
-            e.Graphics.FillRectangle(linGrBrush, StDist - 15, ht / 2 - 35, 15, 70)
+            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(StDist - 15, 0), New Point(StDist - 32, 0), Color.WhiteSmoke, Color.LightGray)
+            e.Graphics.DrawRectangle(Pens.WhiteSmoke, StDist - 15, 0 - 35, 15, 70)
+            e.Graphics.FillRectangle(linGrBrush, StDist - 15, 0 - 35, 15, 70)
             '---end2
-            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(StDist + ScaTotLength, ht / 2), New Point(StDist + ScaTotLength + 15, ht / 2), Color.White, Color.LightGray)
-            e.Graphics.DrawRectangle(Pens.White, StDist + ScaTotLength, ht / 2 - 35, 15, 70)
-            e.Graphics.FillRectangle(linGrBrush, StDist + ScaTotLength, ht / 2 - 35, 15, 70)
+            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(StDist + ScaTotLength, 0), New Point(StDist + ScaTotLength + 15, 0), Color.WhiteSmoke, Color.LightGray)
+            e.Graphics.DrawRectangle(Pens.WhiteSmoke, StDist + ScaTotLength, 0 - 35, 15, 70)
+            e.Graphics.FillRectangle(linGrBrush, StDist + ScaTotLength, 0 - 35, 15, 70)
         ElseIf ends = 2 Then 'Fixed-Free
             '---end1
-            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(StDist - 15, ht / 2), New Point(StDist - 32, ht / 2), Color.White, Color.LightGray)
-            e.Graphics.DrawRectangle(Pens.White, StDist - 15, ht / 2 - 35, 15, 70)
-            e.Graphics.FillRectangle(linGrBrush, StDist - 15, ht / 2 - 35, 15, 70)
+            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(StDist - 15, 0), New Point(StDist - 32, 0), Color.WhiteSmoke, Color.LightGray)
+            e.Graphics.DrawRectangle(Pens.WhiteSmoke, StDist - 15, 0 - 35, 15, 70)
+            e.Graphics.FillRectangle(linGrBrush, StDist - 15, 0 - 35, 15, 70)
 
         ElseIf ends = 3 Then 'Pinned-Pinned
             '---end1
-            e.Graphics.DrawLine(dofpen, StDist, ht / 2 + 3, StDist - 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, StDist, ht / 2 + 3, StDist + 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, StDist + 8, ht / 2 + 19, StDist - 8, ht / 2 + 19)
+            e.Graphics.DrawLine(dofpen, StDist, 0 + 3, StDist - 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, StDist, 0 + 3, StDist + 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, StDist + 8, 0 + 19, StDist - 8, 0 + 19)
 
-            e.Graphics.DrawLine(dofpen, StDist - 8, ht / 2 + 19, StDist, ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, StDist, ht / 2 + 19, StDist - 8, ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, StDist + 8, ht / 2 + 19, StDist, ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, StDist, ht / 2 + 19, StDist + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, StDist - 8, 0 + 19, StDist, 0 + 25)
+            e.Graphics.DrawLine(dofpen, StDist, 0 + 19, StDist - 8, 0 + 25)
+            e.Graphics.DrawLine(dofpen, StDist + 8, 0 + 19, StDist, 0 + 25)
+            e.Graphics.DrawLine(dofpen, StDist, 0 + 19, StDist + 8, 0 + 25)
 
-            e.Graphics.DrawLine(dofpen, StDist - 8, ht / 2 + 25, StDist + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, StDist - 8, 0 + 25, StDist + 8, 0 + 25)
             '---end2
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), ht / 2 + 3, (StDist + ScaTotLength) - 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), ht / 2 + 3, (StDist + ScaTotLength) + 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) + 8, ht / 2 + 19, (StDist + ScaTotLength) - 8, ht / 2 + 19)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), 0 + 3, (StDist + ScaTotLength) - 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), 0 + 3, (StDist + ScaTotLength) + 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) + 8, 0 + 19, (StDist + ScaTotLength) - 8, 0 + 19)
 
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) - 8, ht / 2 + 19, (StDist + ScaTotLength), ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), ht / 2 + 19, (StDist + ScaTotLength) - 8, ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) + 8, ht / 2 + 19, (StDist + ScaTotLength), ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), ht / 2 + 19, (StDist + ScaTotLength) + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) - 8, 0 + 19, (StDist + ScaTotLength), 0 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), 0 + 19, (StDist + ScaTotLength) - 8, 0 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) + 8, 0 + 19, (StDist + ScaTotLength), 0 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), 0 + 19, (StDist + ScaTotLength) + 8, 0 + 25)
 
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) - 8, ht / 2 + 25, (StDist + ScaTotLength) + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) - 8, 0 + 25, (StDist + ScaTotLength) + 8, 0 + 25)
             'ElseIf ends = 4 Then 'Free-Free
             '----
         ElseIf ends = 5 Then 'Fixed-Pinned
             '---end1
-            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(StDist - 15, ht / 2), New Point(StDist - 32, ht / 2), Color.White, Color.LightGray)
-            e.Graphics.DrawRectangle(Pens.White, StDist - 15, ht / 2 - 35, 15, 70)
-            e.Graphics.FillRectangle(linGrBrush, StDist - 15, ht / 2 - 35, 15, 70)
+            linGrBrush = New System.Drawing.Drawing2D.LinearGradientBrush(New Point(StDist - 15, 0), New Point(StDist - 32, 0), Color.WhiteSmoke, Color.LightGray)
+            e.Graphics.DrawRectangle(Pens.WhiteSmoke, StDist - 15, 0 - 35, 15, 70)
+            e.Graphics.FillRectangle(linGrBrush, StDist - 15, 0 - 35, 15, 70)
             '---end2
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), ht / 2 + 3, (StDist + ScaTotLength) - 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), ht / 2 + 3, (StDist + ScaTotLength) + 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) + 8, ht / 2 + 19, (StDist + ScaTotLength) - 8, ht / 2 + 19)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), 0 + 3, (StDist + ScaTotLength) - 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), 0 + 3, (StDist + ScaTotLength) + 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) + 8, 0 + 19, (StDist + ScaTotLength) - 8, 0 + 19)
 
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) - 8, ht / 2 + 19, (StDist + ScaTotLength), ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), ht / 2 + 19, (StDist + ScaTotLength) - 8, ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) + 8, ht / 2 + 19, (StDist + ScaTotLength), ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), ht / 2 + 19, (StDist + ScaTotLength) + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) - 8, 0 + 19, (StDist + ScaTotLength), 0 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), 0 + 19, (StDist + ScaTotLength) - 8, 0 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) + 8, 0 + 19, (StDist + ScaTotLength), 0 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength), 0 + 19, (StDist + ScaTotLength) + 8, 0 + 25)
 
-            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) - 8, ht / 2 + 25, (StDist + ScaTotLength) + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + ScaTotLength) - 8, 0 + 25, (StDist + ScaTotLength) + 8, 0 + 25)
         ElseIf ends = 6 Then
             '---end1
-            e.Graphics.DrawLine(dofpen, StDist, ht / 2 + 3, StDist - 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, StDist, ht / 2 + 3, StDist + 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, StDist + 8, ht / 2 + 19, StDist - 8, ht / 2 + 19)
+            e.Graphics.DrawLine(dofpen, StDist, 0 + 3, StDist - 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, StDist, 0 + 3, StDist + 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, StDist + 8, 0 + 19, StDist - 8, 0 + 19)
 
-            e.Graphics.DrawLine(dofpen, StDist - 8, ht / 2 + 19, StDist, ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, StDist, ht / 2 + 19, StDist - 8, ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, StDist + 8, ht / 2 + 19, StDist, ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, StDist, ht / 2 + 19, StDist + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, StDist - 8, 0 + 19, StDist, 0 + 25)
+            e.Graphics.DrawLine(dofpen, StDist, 0 + 19, StDist - 8, 0 + 25)
+            e.Graphics.DrawLine(dofpen, StDist + 8, 0 + 19, StDist, 0 + 25)
+            e.Graphics.DrawLine(dofpen, StDist, 0 + 19, StDist + 8, 0 + 25)
 
-            e.Graphics.DrawLine(dofpen, StDist - 8, ht / 2 + 25, StDist + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, StDist - 8, 0 + 25, StDist + 8, 0 + 25)
         End If
     End Sub
 
@@ -1071,7 +1200,7 @@ r1:
         For Each itm In mem
             TotLength = TotLength + itm.spanlength
         Next
-        StDist = (max_width / 2 - coverpic.Width / 2) + 100
+        StDist = (-(coverpic.Width / 2)) + 100
         ScaTotLength = coverpic.Width - 200
 
         Dim dist As Single
@@ -1080,16 +1209,16 @@ r1:
             If mem.IndexOf(itm) = (mem.Count - 1) Then
                 Exit Sub
             End If
-            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))), ht / 2 + 3, (StDist + (dist * (ScaTotLength / TotLength))) - 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))), ht / 2 + 3, (StDist + (dist * (ScaTotLength / TotLength))) + 8, ht / 2 + 19)
-            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))) + 8, ht / 2 + 19, (StDist + (dist * (ScaTotLength / TotLength))) - 8, ht / 2 + 19)
+            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))), 0 + 3, (StDist + (dist * (ScaTotLength / TotLength))) - 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))), 0 + 3, (StDist + (dist * (ScaTotLength / TotLength))) + 8, 0 + 19)
+            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))) + 8, 0 + 19, (StDist + (dist * (ScaTotLength / TotLength))) - 8, 0 + 19)
 
-            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))) - 8, ht / 2 + 19, (StDist + (dist * (ScaTotLength / TotLength))), ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))), ht / 2 + 19, (StDist + (dist * (ScaTotLength / TotLength))) - 8, ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))) + 8, ht / 2 + 19, (StDist + (dist * (ScaTotLength / TotLength))), ht / 2 + 25)
-            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))), ht / 2 + 19, (StDist + (dist * (ScaTotLength / TotLength))) + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))) - 8, 0 + 19, (StDist + (dist * (ScaTotLength / TotLength))), 0 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))), 0 + 19, (StDist + (dist * (ScaTotLength / TotLength))) - 8, 0 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))) + 8, 0 + 19, (StDist + (dist * (ScaTotLength / TotLength))), 0 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))), 0 + 19, (StDist + (dist * (ScaTotLength / TotLength))) + 8, 0 + 25)
 
-            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))) - 8, ht / 2 + 25, (StDist + (dist * (ScaTotLength / TotLength))) + 8, ht / 2 + 25)
+            e.Graphics.DrawLine(dofpen, (StDist + (dist * (ScaTotLength / TotLength))) - 8, 0 + 25, (StDist + (dist * (ScaTotLength / TotLength))) + 8, 0 + 25)
         Next
     End Sub
 
@@ -1118,7 +1247,7 @@ r1:
                 End If
             Next
         Next
-        StDist = (max_width / 2 - coverpic.Width / 2) + 100
+        StDist = (-(coverpic.Width / 2)) + 100
         ScaTotLength = coverpic.Width - 200
 
         Dim intSTdist As Single = StDist
@@ -1144,23 +1273,23 @@ r1:
                 toSY1 = itm.Uload(i).uload1 * (100 / maxload)
                 toSY2 = itm.Uload(i).uload2 * (100 / maxload)
 
-                e.Graphics.DrawLine(loadpen, toSX1, (ht / 2), toSX1, (ht / 2) - toSY1)
-                e.Graphics.DrawString(itm.Uload(i).uload1, Font, loadpen.Brush, toSX1, ((ht / 2) - 20) - toSY1)
+                e.Graphics.DrawLine(loadpen, toSX1, (0), toSX1, (0) - toSY1)
+                e.Graphics.DrawString(itm.Uload(i).uload1, Font, loadpen.Brush, toSX1, ((0) - 20) - toSY1)
                 If toSY2 = toSY1 Then
                     For k = toSX1 To toSX2 Step 10
-                        e.Graphics.DrawLine(loadpen, k, (ht / 2), k, (ht / 2) - (toSY1))
+                        e.Graphics.DrawLine(loadpen, k, (0), k, (0) - (toSY1))
                     Next
                 ElseIf toSY2 > toSY1 Then
                     For k = toSX1 To toSX2 Step 10
-                        e.Graphics.DrawLine(loadpen, k, (ht / 2), k, (ht / 2) - (toSY1 + (((toSY2 - toSY1) / (toSX2 - toSX1)) * (k - toSX1))))
+                        e.Graphics.DrawLine(loadpen, k, (0), k, (0) - (toSY1 + (((toSY2 - toSY1) / (toSX2 - toSX1)) * (k - toSX1))))
                     Next
                 Else
                     For k = toSX1 To toSX2 Step 10
-                        e.Graphics.DrawLine(loadpen, k, (ht / 2), k, (ht / 2) - (toSY2 + (((toSY1 - toSY2) / (toSX2 - toSX1)) * (toSX2 - k))))
+                        e.Graphics.DrawLine(loadpen, k, (0), k, (0) - (toSY2 + (((toSY1 - toSY2) / (toSX2 - toSX1)) * (toSX2 - k))))
                     Next
                 End If
-                e.Graphics.DrawLine(loadpen, toSX2, (ht / 2), toSX2, (ht / 2) - toSY2)
-                e.Graphics.DrawString(itm.Uload(i).uload2, Font, loadpen.Brush, toSX2, ((ht / 2) - 20) - toSY2)
+                e.Graphics.DrawLine(loadpen, toSX2, (0), toSX2, (0) - toSY2)
+                e.Graphics.DrawString(itm.Uload(i).uload2, Font, loadpen.Brush, toSX2, ((0) - 20) - toSY2)
             Next
             '----Point Load
             j = itm.Pload.Count - 1
@@ -1173,8 +1302,8 @@ r1:
                 toSX = intSTdist + (itm.Pload(i).pdist * (ScaTotLength / TotLength))
                 toSY = itm.Pload(i).pload * (100 / maxload)
 
-                e.Graphics.DrawLine(loadpen, toSX, ht / 2, toSX, (ht / 2) - toSY)
-                e.Graphics.DrawString(itm.Pload(i).pload, Font, loadpen.Brush, toSX, ((ht / 2) - 20) - toSY)
+                e.Graphics.DrawLine(loadpen, toSX, 0, toSX, (0) - toSY)
+                e.Graphics.DrawString(itm.Pload(i).pload, Font, loadpen.Brush, toSX, ((0) - 20) - toSY)
 
             Next
             '----Moment
@@ -1189,8 +1318,8 @@ r1:
                 Else
                     loadpen.CustomEndCap = adcap
                 End If
-                e.Graphics.DrawArc(loadpen, toSX - 30, ((ht / 2) - 30), 60, 60, 270, 180)
-                e.Graphics.DrawString(Math.Abs(itm.Mload(i).mload), Font, loadpen.Brush, toSX, ((ht / 2) - 50))
+                e.Graphics.DrawArc(loadpen, toSX - 30, ((0) - 30), 60, 60, 270, 180)
+                e.Graphics.DrawString(Math.Abs(itm.Mload(i).mload), Font, loadpen.Brush, toSX, ((0) - 50))
             Next
             intSTdist = StDist + (dist * (ScaTotLength / TotLength))
         Next
@@ -1211,7 +1340,7 @@ r1:
     Private Sub rShearPaint(ByVal e As System.Windows.Forms.PaintEventArgs)
         Dim PP As New System.Drawing.Pen(Color.CornflowerBlue, 3)
         Dim fnt As New Font("Verdana", 14)
-        e.Graphics.DrawString("Shear Force Diagram", fnt, Brushes.CornflowerBlue, (max_width / 2 - coverpic.Width / 2) + 100, ht / 2 - 260)
+        e.Graphics.DrawString("Shear Force Diagram", fnt, Brushes.CornflowerBlue, (-(coverpic.Width / 2)) + 100, 0 - 260)
         e.Graphics.DrawLine(PP, CInt(SFpts(0).X), CInt(Me.MEheight / 2), SFpts(0).X, SFpts(0).Y)
         e.Graphics.DrawLines(PP, SFpts)
         fnt = New Font("Verdana", 10, FontStyle.Bold)
@@ -1226,7 +1355,7 @@ r1:
         Dim PP As New System.Drawing.Pen(Color.Crimson, 3)
         Dim fnt As Font
         fnt = New Font("Verdana", 14)
-        e.Graphics.DrawString("Bending Moment Diagram", fnt, Brushes.Crimson, (max_width / 2 - coverpic.Width / 2) + 100, ht / 2 - 260)
+        e.Graphics.DrawString("Bending Moment Diagram", fnt, Brushes.Crimson, (-(coverpic.Width / 2)) + 100, 0 - 260)
         e.Graphics.DrawLine(PP, CInt(BMpts(0).X), CInt(Me.MEheight / 2), BMpts(0).X, BMpts(0).Y)
         e.Graphics.DrawLines(PP, BMpts)
         fnt = New Font("Verdana", 10, FontStyle.Bold)
@@ -1241,7 +1370,7 @@ r1:
         Dim PP As New System.Drawing.Pen(Color.DarkGreen, 3)
         Dim fnt As Font
         fnt = New Font("Verdana", 14)
-        e.Graphics.DrawString("Displacement Diagram", fnt, Brushes.DarkGreen, (max_width / 2 - coverpic.Width / 2) + 100, ht / 2 - 260)
+        e.Graphics.DrawString("Displacement Diagram", fnt, Brushes.DarkGreen, (-(coverpic.Width / 2)) + 100, 0 - 260)
         e.Graphics.DrawLines(PP, DEpts)
         fnt = New Font("Verdana", 10, FontStyle.Bold)
         Dim i As Integer = 0
@@ -1255,7 +1384,7 @@ r1:
         Dim PP As New System.Drawing.Pen(Color.DeepPink, 3)
         Dim fnt As Font
         fnt = New Font("Verdana", 14)
-        e.Graphics.DrawString("Slope Diagram", fnt, Brushes.DeepPink, (max_width / 2 - coverpic.Width / 2) + 100, ht / 2 - 260)
+        e.Graphics.DrawString("Slope Diagram", fnt, Brushes.DeepPink, (-(coverpic.Width / 2)) + 100, 0 - 260)
         e.Graphics.DrawLines(PP, SLpts)
         fnt = New Font("Verdana", 10, FontStyle.Bold)
         Dim i As Integer = 0
@@ -1275,98 +1404,94 @@ r1:
         MDIMain.ToolStrip1.Focus()
     End Sub
 
+
     Private Sub respic_MouseWheel(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles respic.MouseWheel
-        Dim xw, yw As Single
-        xw = e.X / Zm
-        yw = e.Y / Zm
+        Dim xw, yw As Double
+        respic.Focus()
+        xw = (e.X / Zm) - MidPt.X
+        yw = (e.Y / Zm) - MidPt.Y
         If e.Delta > 0 Then
-            If Zm < 10 Then
-                Zm = Zm + 0.25
+            If Zm < 100 Then
+                Zm = Zm + 0.1
             End If
-        Else
-            If Zm > 1 Then
-                Zm = Zm - 0.25
+        ElseIf e.Delta < 0 Then
+            If Zm > 0.101 Then
+                Zm = Zm - 0.1
+                'ElseIf Zm <= 0.1 Then
+                '    If Zm > 0.0101 Then
+                '        Zm = Zm - 0.01
+                '    ElseIf Zm <= 0.01 Then
+                '        If Zm > 0.00101 Then
+                '            Zm = Zm - 0.001
+                '        End If
+                '    End If
             End If
         End If
-        If e.X <> xw * Zm Then
-            respic.Width = max_width * Zm
-            respic.Height = ht * Zm
-            HScrollBar1.Maximum = (max_width * Zm) - coverpic.Width
-            VScrollBar1.Maximum = (max_width * Zm) - coverpic.Height
+        MidPt.X = (e.X / Zm) - xw
+        MidPt.Y = (e.Y / Zm) - yw
 
-            xw = -(respic.Left - ((xw * Zm) - e.X))
-            yw = -(respic.Top - ((yw * Zm) - e.Y))
-
-            If xw <= HScrollBar1.Minimum Then
-                respic.Left = -1
-                HScrollBar1.Value = 50
-            ElseIf xw >= HScrollBar1.Maximum Then
-                respic.Left = -HScrollBar1.Maximum
-                HScrollBar1.Value = HScrollBar1.Maximum
-            Else
-                respic.Left = -xw
-                HScrollBar1.Value = xw
-            End If
-
-            If yw <= VScrollBar1.Minimum Then
-                respic.Top = -1
-                VScrollBar1.Value = 100
-            ElseIf yw >= VScrollBar1.Maximum Then
-                respic.Top = -VScrollBar1.Maximum
-                VScrollBar1.Value = VScrollBar1.Maximum
-            Else
-                respic.Top = -yw
-                VScrollBar1.Value = yw
-            End If
-
-            ' mainpic.Top = -(((ht * Zm) - ht) / 2)
-            respic.Refresh()
-            MDIMain.ToolStripLabel1.Text = (Zm * 100) & "%"
-            MDIMain.ToolStripLabel2.Text = (Zm * 100) & "%"
-        End If
+        ' mainpic.Top = -(((ht * Zm) - ht) / 2)
+        respic.Refresh()
+        MDIMain.ToolStripLabel1.Text = (Zm * 100) & "%"
+        MDIMain.ToolStripLabel2.Text = (Zm * 100) & "%"
+        ' End If
     End Sub
 #End Region
 
 #Region "Respic Mouse Move Events"
 
     Private Sub respic_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles respic.MouseMove
+        '------ Mouse move drag
+        If isMiddleDrag = True Then
+            '---- Pan Operation 
+            MidPt = New Point((e.X / Zm) - PanStartDrag.X, (e.Y / Zm) - PanStartDrag.Y)
+            respic.Refresh()
+            Exit Sub
+        End If
+
         Dim StDist As Single
         Dim ScaTotLength As Single
 
-        StDist = (max_width / 2 - coverpic.Width / 2) + 100
+        StDist = (-(coverpic.Width / 2)) + 100
         ScaTotLength = coverpic.Width - 200
+
         MDIMain.SFlabel.Visible = False
         MDIMain.BMlabel.Visible = False
         MDIMain.DELabel.Visible = False
         MDIMain.SLLabel.Visible = False
         MDIMain.Xlabel.Visible = False
+
+        Dim TempX, TempY As Double
+        TempX = (e.X / Zm) - MidPt.X
+        TempY = (e.Y / Zm) - MidPt.Y
+
         If MDIMain.ShearForceDiagramToolStripMenuItem.Checked = True Then
-            If ((e.X / Zm) > StDist And (e.X / Zm) < StDist + ScaTotLength) And ((e.Y / Zm) > ht / 2 - 40 And (e.Y / Zm) < ht / 2 + 40) Then
-                Dim i As Integer = (e.X / Zm) - StDist
+            If (TempX > StDist And TempX < StDist + ScaTotLength) And (TempY > 0 - 40 And TempY < 0 + 40) Then
+                Dim i As Integer = TempX - StDist
                 MDIMain.SFlabel.Text = Math.Round(SF(i), 4)
                 MDIMain.SFlabel.Visible = True
                 MDIMain.Xlabel.Text = Math.Round(((totL / (coverpic.Width - 200)) * i), 3) & "     ---> "
                 MDIMain.Xlabel.Visible = True
             End If
         ElseIf MDIMain.BendingMomentDiagramToolStripMenuItem.Checked = True Then
-            If ((e.X / Zm) > StDist And (e.X / Zm) < StDist + ScaTotLength) And ((e.Y / Zm) > ht / 2 - 40 And (e.Y / Zm) < ht / 2 + 40) Then
-                Dim i As Integer = (e.X / Zm) - StDist
+            If (TempX > StDist And TempX < StDist + ScaTotLength) And (TempY > 0 - 40 And TempY < 0 + 40) Then
+                Dim i As Integer = TempX - StDist
                 MDIMain.BMlabel.Text = Math.Round(BM(i), 4)
                 MDIMain.BMlabel.Visible = True
                 MDIMain.Xlabel.Text = Math.Round(((totL / (coverpic.Width - 200)) * i), 3) & "     ---> "
                 MDIMain.Xlabel.Visible = True
             End If
         ElseIf MDIMain.DeflectionToolStripMenuItem.Checked = True Then
-            If ((e.X / Zm) > StDist And (e.X / Zm) < StDist + ScaTotLength) And ((e.Y / Zm) > ht / 2 - 40 And (e.Y / Zm) < ht / 2 + 40) Then
-                Dim i As Integer = (e.X / Zm) - StDist
+            If (TempX > StDist And TempX < StDist + ScaTotLength) And (TempY > 0 - 40 And TempY < 0 + 40) Then
+                Dim i As Integer = TempX - StDist
                 MDIMain.DELabel.Text = Math.Round(DE(i), 8)
                 MDIMain.DELabel.Visible = True
                 MDIMain.Xlabel.Text = Math.Round(((totL / (coverpic.Width - 200)) * i), 3) & "     ---> "
                 MDIMain.Xlabel.Visible = True
             End If
         ElseIf MDIMain.SlopeToolStripMenuItem.Checked = True Then
-            If ((e.X / Zm) > StDist And (e.X / Zm) < StDist + ScaTotLength) And ((e.Y / Zm) > ht / 2 - 40 And (e.Y / Zm) < ht / 2 + 40) Then
-                Dim i As Integer = (e.X / Zm) - StDist
+            If (TempX > StDist And TempX < StDist + ScaTotLength) And (TempY > 0 - 40 And TempY < 0 + 40) Then
+                Dim i As Integer = TempX - StDist
                 MDIMain.SLLabel.Text = Math.Round(SL(i), 8)
                 MDIMain.SLLabel.Visible = True
                 MDIMain.Xlabel.Text = Math.Round(((totL / (coverpic.Width - 200)) * i), 3) & "     ---> "
@@ -1381,6 +1506,36 @@ r1:
         If e.Button = Windows.Forms.MouseButtons.Right Then
             ContextMenuStrip3.Show(respic.PointToScreen(e.Location))
         End If
+    End Sub
+
+
+    Private Sub respic_MouseDown(sender As Object, e As MouseEventArgs) Handles respic.MouseDown
+        '------ Mouse down for Click and drag
+        If e.Button = Windows.Forms.MouseButtons.Middle Then
+            '---- Pan Operation
+            isMiddleDrag = True
+            PanStartDrag = New Point((e.X / Zm) - MidPt.X, (e.Y / Zm) - MidPt.Y)
+            respic.Refresh()
+        End If
+    End Sub
+
+    Private Sub respic_MouseUp(sender As Object, e As MouseEventArgs) Handles respic.MouseUp
+        '------ Mouse up for Click and drag
+        If e.Button = Windows.Forms.MouseButtons.Middle Then
+            '--- Pan Operation Stops
+            isMiddleDrag = False
+            respic.Refresh()
+        End If
+    End Sub
+
+    Private Sub respic_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles respic.MouseDoubleClick
+        ' Zoom to Fit
+        MidPt = New Point(respic.Width / 2, respic.Height / 2)
+        Zm = 1
+        MDIMain.ToolStripLabel1.Text = (Zm * 100) & "%"
+        MDIMain.ToolStripLabel2.Text = (Zm * 100) & "%"
+
+        respic.Refresh()
     End Sub
 #End Region
 
@@ -1428,6 +1583,10 @@ r1:
             respic.Refresh()
         End If
     End Sub
+
+
+
+
 #End Region
 #End Region
 
