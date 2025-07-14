@@ -17,3 +17,28 @@ E:\Data\Past Coding\Project_Code\CBAnsDes_Final\CBAnsDes\obj\Debug\CBAnsDes.vbpr
 E:\Data\Past Coding\Project_Code\CBAnsDes_Final\CBAnsDes\obj\Debug\CBAnsDes.exe
 E:\Data\Past Coding\Project_Code\CBAnsDes_Final\CBAnsDes\obj\Debug\CBAnsDes.xml
 E:\Data\Past Coding\Project_Code\CBAnsDes_Final\CBAnsDes\obj\Debug\CBAnsDes.pdb
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\bin\Debug\CBAnsDes.exe.manifest
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\bin\Debug\CBAnsDes.application
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\bin\Debug\CBAnsDes.exe
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\bin\Debug\CBAnsDes.pdb
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\bin\Debug\CBAnsDes.xml
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.vbproj.AssemblyReference.cache
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.beamcreate.resources
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.addmember.resources
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.Ends_Editor.resources
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.GeneralInstruction.resources
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.LoadWindow.resources
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.memDetails.resources
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.Newapp.resources
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.Aboutus.resources
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.logo.resources
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.MDIMain.resources
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.Resources.resources
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.vbproj.GenerateResource.cache
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.vbproj.CoreCompileInputs.cache
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.TrustInfo.xml
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.exe.manifest
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.application
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.exe
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.xml
+C:\Users\HFXMSZ\OneDrive - LR\Documents\Programming\Other programs\001_Legacy_codes\Github_cloned\continuous_beam_analysis\CBAnalyzer\CBAnsDes\obj\Debug\CBAnsDes.pdb

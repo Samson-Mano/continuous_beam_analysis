@@ -337,6 +337,7 @@ x1:
                 ToolStripLabel1.Text = 100%
                 ToolStripLabel2.Text = 100%
 
+                ShearForceDiagramToolStripMenuItem.Checked = True
                 BendingMomentDiagramToolStripMenuItem_Click(sender, e)
                 Exit Sub
             Else
@@ -400,6 +401,10 @@ x1:
         ComputeToolStripMenuItem.Enabled = False
         ViewMenu.Enabled = False
         ToolsMenu.Enabled = False
+
+        ' Below code is to avoid overflow error at start
+        BendingMomentDiagramToolStripMenuItem.Checked = False
+
         '---Scene
         'Me.Visible = False
         'logo.ShowDialog()
@@ -407,11 +412,17 @@ x1:
     End Sub
 
     Private Sub GeneralInstructionToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GeneralInstructionToolStripMenuItem.Click
-        GeneralInstruction.ShowDialog()
+        GeneralInstruction.StartPosition = FormStartPosition.CenterParent
+        GeneralInstruction.ShowDialog(Me)
+
+        'GeneralInstruction.ShowDialog()
     End Sub
 
     Private Sub AboutToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AboutToolStripMenuItem.Click
-        Aboutus.ShowDialog()
+        Aboutus.StartPosition = FormStartPosition.CenterParent
+        Aboutus.ShowDialog(Me)
+
+        'Aboutus.ShowDialog()
     End Sub
 
     Private Sub memdetailsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles memdetailsToolStripMenuItem.Click
