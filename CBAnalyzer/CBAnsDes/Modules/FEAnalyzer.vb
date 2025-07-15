@@ -1373,7 +1373,7 @@
         Dim f As Integer = 0
         For Each B In BM
             BMpts(f).X = BeamCoords(f)
-            BMpts(f).Y = (B * maxV) + (beamcreate.MEheight / 2)
+            BMpts(f).Y = -(B * maxV) + (beamcreate.MEheight / 2)
             f = f + 1
         Next
     End Sub
@@ -1420,6 +1420,11 @@
         ReDim BMmaxs(CDSindex.Count - 1)
         Dim f As Integer = 0
         For Each CD In CDSindex
+            If CD < 0 Then
+                Continue For
+            End If
+
+
             BMMc.Add(CD)
             BMmaxs(f).X = BMpts(CD).X
             BMmaxs(f).Y = BMpts(CD).Y + If(BMpts(CD).Y > (beamcreate.MEheight / 2), 15, -30)
